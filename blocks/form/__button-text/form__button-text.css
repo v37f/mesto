@@ -1,0 +1,12 @@
+.form__button-text {
+  margin: 0;
+  padding: 0;
+
+  max-height: 18px;
+
+  color: #fff;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+}
