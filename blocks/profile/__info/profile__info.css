@@ -1,12 +1,15 @@
 .profile__info {
   display: grid;
   grid-template-columns: 294px 24px;
-  grid-template-rows: repeat(2, auto);
+  /* grid-template-rows: repeat(2, auto); */
+  grid-template-rows: 39px 18px;
 
   column-gap: 18px;
   row-gap: 16px;
 
-  align-items: end;
+  align-items: start;
+  align-self: end;
+  margin-bottom: 25px;
 }
 
 @media screen and (max-width: 767px) {
@@ -26,6 +29,7 @@
 @media screen and (max-width: 425px) {
   .profile__info {
     grid-template-columns: 37px 189px 37px;
+    grid-template-rows: 26px 14px;
     column-gap: 10px;
     row-gap: 14px;
   }
