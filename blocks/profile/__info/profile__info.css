@@ -14,7 +14,7 @@
 
 @media screen and (max-width: 767px) {
   .profile__info {
-    margin-bottom: 36px;
+    margin:0 auto 36px auto;
 
     /* чтобы выставить имя по центру сделаем грид-сетку симметричной*/
     grid-template-columns: 24px 294px 24px;
