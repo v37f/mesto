@@ -1,12 +1,9 @@
 .profile__info {
   display: grid;
   grid-template-columns: 294px 24px;
-  /* grid-template-rows: repeat(2, auto); */
   grid-template-rows: 39px 18px;
-
   column-gap: 18px;
   row-gap: 16px;
-
   align-items: start;
   align-self: end;
   margin-bottom: 25px;
@@ -14,14 +11,13 @@
 
 @media screen and (max-width: 767px) {
   .profile__info {
-    margin:0 auto 36px auto;
-
+    margin-bottom: 36px;
     /* чтобы выставить имя по центру сделаем грид-сетку симметричной*/
     grid-template-columns: 24px 294px 24px;
     grid-template-areas:
     '. profile-name edit-button'
     'description description description';
-
+    align-self: center;
     text-align: center;
   }
 }
