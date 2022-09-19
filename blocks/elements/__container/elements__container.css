@@ -1,16 +1,13 @@
 .elements__container {
   margin: 0 auto;
   padding: 0;
-
   max-width: 880px;
   width: calc(100% - (200px * 2));
-
   display: grid;
   grid-template-columns: repeat(auto-fit, 282px);
   column-gap: 17px;
   row-gap: 20px;
   justify-content: center;
-
   list-style: none;
 }
 

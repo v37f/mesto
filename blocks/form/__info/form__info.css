@@ -1,10 +1,7 @@
 .form__info {
   margin: 0;
   padding: 0;
-
-  display: block;
   border: none;
-
   display: flex;
   flex-direction: column;
   align-items: stretch;
