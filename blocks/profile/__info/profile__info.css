@@ -21,7 +21,7 @@
     grid-template-areas:
     '. profile-name edit-button'
     'description description description';
-
+    align-self: center;
     text-align: center;
   }
 }
