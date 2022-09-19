@@ -1,4 +1,4 @@
-.form__title {
+.popup__title {
   margin: 0 0 48px 0;
   /* в макете нижний отступ равен 54px, line-height заголовка 29px, но при этом высота(height) 23px,
   если намерено не ограничивать высоту заголовка(т.к. это является плохим решением для текстового элемента),
@@ -15,7 +15,7 @@
 }
 
 @media screen and (max-width: 425px) {
-  .form__title {
+  .popup__title {
     margin: 0 0 75px 0;
 
     max-width: 238px;
