@@ -4,7 +4,17 @@
   border: none;
   border-radius: 2px;
 
-  padding: 14px 0 18px;
+  padding: 14px 0;
+  /* в макете нижний отступ составляет 18px, высота текста указана 18px,
+  при этом line-heigt равен 22px, т.к. значение высоты не фиксированно, оно
+  равняется line-height(22px), что увеличивает общий размер кнопки на 22 - 18 = 4px,
+  поэтому для соответвия высоты кнопки макету, уменьшаяем нижний паддинг на 4px,
+  таким образом он равняется 18 - 4 = 14px */
+  color: #fff;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
 
   transition: opacity .4s ease;
 }
