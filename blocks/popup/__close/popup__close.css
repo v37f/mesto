@@ -1,8 +1,13 @@
 .popup__close {
   width: 32px;
   height: 32px;
+  padding: 0;
 
-  object-fit: contain;
+  background: none;
+  background-image: url('../../../images/popup-close.svg');
+  background-size: contain;
+  box-shadow: none;
+  border: none;
 
   position: absolute;
   top: calc(-8px - 32px); /* расстоянгие от контейнера до крестика(8px) минус высота самого крестика(32px) */
