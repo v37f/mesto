@@ -23,6 +23,11 @@
   margin: 0 0 48px 0;
 }
 
+.form__input:focus {
+  background-color: rgba(0, 0, 0, .1);
+  outline: 1px solid #000;
+}
+
 @media screen and (max-width: 425px) {
   .form__input:last-of-type {
     margin: 0 0 45px 0;
