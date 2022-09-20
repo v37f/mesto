@@ -13,7 +13,7 @@
 
 @media screen and (max-width: 767px) {
   .profile__name {
-    justify-self: end;
+    justify-self: center;
     text-align: center;
     grid-area: profile-name;
   }
