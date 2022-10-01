@@ -8,6 +8,9 @@ let profileName = document.querySelector('.profile__name');
 let profileJob = document.querySelector('.profile__job');
 const addButton = document.querySelector('.profile__add-button')
 
+
+
+
 // массив мест
 const initialCards = [
   {
@@ -58,6 +61,10 @@ const createItemNode = (name, link) => {
   const currentImage = currentItem.querySelector('.element__image');
   currentImage.setAttribute('src', link);
   currentImage.setAttribute('alt', 'Не удалось загрузить картинку!');
+
+  currentItem.querySelector('.element__like-button').addEventListener('click', function (evt) {
+    evt.target.classList.toggle('element__like-button_active');
+  });
 
   return currentItem;
 }
