@@ -38,47 +38,6 @@
       <!-- начало блока elements -->
       <section class="elements">
         <ul class="elements__container">
-          <!-- <li class="element">
-            <img class="element__image" src="images/karachaevsk.jpg" alt="Старинная церковь">
-            <div class="element__bottom-box">
-              <h2 class="element__title">Карачаевск</h2>
-              <button class="element__like-button" type="button" aria-label="Мне нравится!"></button>
-            </div>
-          </li>
-          <li class="element">
-            <img class="element__image" src="images/elbrus.jpg" alt="Эльбрус">
-            <div class="element__bottom-box">
-              <h2 class="element__title">Гора Эльбрус</h2>
-              <button class="element__like-button" type="button" aria-label="Мне нравится!"></button>
-            </div>
-          </li>
-          <li class="element">
-            <img class="element__image" src="images/dombai.jpg" alt="Домбай">
-            <div class="element__bottom-box">
-              <h2 class="element__title">Домбай</h2>
-              <button class="element__like-button" type="button" aria-label="Мне нравится!"></button>
-            </div>
-          </li>
-          <li class="element">
-            <img class="element__image" src="images/sakhalin.jpg" alt="Скалы у океана">
-            <div class="element__bottom-box">
-              <h2 class="element__title">Сахалин</h2>
-              <button class="element__like-button" type="button" aria-label="Мне нравится!"></button>
-            </div>
-          </li>
-          <li class="element">
-            <img class="element__image" src="images/kamchatka.jpg" alt="Озеро среди гор">
-            <div class="element__bottom-box">
-              <h2 class="element__title">Камчатка</h2>
-              <button class="element__like-button" type="button" aria-label="Мне нравится!"></button>
-            </div>
-          </li>
-          <li class="element"><img class="element__image" src="images/baikal.jpg" alt="Потрескавшийся лёд озера">
-            <div class="element__bottom-box">
-              <h2 class="element__title">Озеро Байкал</h2>
-              <button class="element__like-button" type="button" aria-label="Мне нравится!"></button>
-            </div>
-          </li> -->
         </ul>
       </section>
       <!-- конец блока elements -->
@@ -88,6 +47,22 @@
     <footer class="footer">
       <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
     </footer>
+
+    <!-- начало блока popup -->
+    <div class="popup">
+      <div class="popup__container">
+        <button class="popup__close" type="button" aria-label="Закрыть окно" title="Закрыть"></button>
+        <h2 class="popup__title"></h2>
+        <form action="#" class="form" name="form">
+          <fieldset class="form__info">
+            <input type="text" name="top-input" class="form__input form__input_top" required>
+            <input type="text" name="botton-input" class="form__input form__input_bottom" required>
+            <button type="submit" class="form__button"></button>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+    <!-- конец блока popup -->
 
     <!-- template карточки места -->
     <template class="element-template">
@@ -99,21 +74,6 @@
         </div>
       </li>
     </template>
-    <!-- начало блока popup -->
-    <div class="popup">
-      <div class="popup__container">
-        <button class="popup__close" type="button" aria-label="Закрыть окно" title="Закрыть"></button>
-        <h2 class="popup__title">Редактировать профиль</h2>
-        <form action="#" class="form" name="profile-edit-form">
-          <fieldset class="form__info">
-            <input type="text" name="name" class="form__input form__input_type_name" placeholder="Имя" required>
-            <input type="text" name="job" class="form__input form__input_type_job" placeholder="О себе" required>
-            <button type="submit" class="form__button">Сохранить</button>
-          </fieldset>
-        </form>
-      </div>
-    </div>
-    <!-- конец блока popup -->
   </div>
   <script src="scripts/index.js"></script>
 </body>
