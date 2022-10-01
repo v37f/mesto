@@ -66,6 +66,11 @@ const createItemNode = (name, link) => {
     evt.target.classList.toggle('element__like-button_active');
   });
 
+  currentItem.querySelector('.element__delete-button').addEventListener('click', function (evt) {
+    const currentEl = evt.target.closest('.element');
+    currentEl.remove();
+  });
+
   return currentItem;
 }
 
