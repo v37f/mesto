@@ -1,6 +1,4 @@
 .popup__container_type_photo {
   margin: 0 auto;
-  max-width: 75vw;
-  max-height: 75vh;
   width: calc(100% - (40 * 2));
 }

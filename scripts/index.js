@@ -55,7 +55,6 @@ const createItemNode = (name, link) => {
   currentTitle.textContent = name;
   const currentImage = currentItem.querySelector('.element__image');
   currentImage.setAttribute('src', link);
-  currentImage.setAttribute('alt', 'Не удалось загрузить картинку!');
   currentImage.addEventListener('click', createPhotoPopup);
   currentItem.querySelector('.element__like-button').addEventListener('click', likeElement);
   currentItem.querySelector('.element__delete-button').addEventListener('click', deleteElement);
