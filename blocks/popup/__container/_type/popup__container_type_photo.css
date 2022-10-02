@@ -1,4 +1,4 @@
 .popup__container_type_photo {
   margin: 0 auto;
-  width: calc(100% - (40 * 2));
+  width: calc(100% - (40px * 2));
 }
