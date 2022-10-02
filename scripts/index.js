@@ -9,7 +9,7 @@ let profileJob = document.querySelector('.profile__job');
 const addButton = document.querySelector('.profile__add-button')
 
 
-
+const photoPopup = document.querySelector('.popup_type_photo');
 
 // массив мест
 const initialCards = [
@@ -69,6 +69,16 @@ const createItemNode = (name, link) => {
   currentItem.querySelector('.element__delete-button').addEventListener('click', function (evt) {
     const currentEl = evt.target.closest('.element');
     currentEl.remove();
+
+
+  });
+
+  currentImage.addEventListener('click', function () {
+    const popupImage = document.querySelector('.popup__image');
+    const popupImageTitle = document.querySelector('.popup__image-title');
+    popupImage.setAttribute('src', link);
+    popupImageTitle.textContent = name;
+    photoPopup.classList.add('popup_opened');
   });
 
   return currentItem;
@@ -121,3 +131,5 @@ profileEditButton.addEventListener('click', createForm);
 popupCloseButton.addEventListener('click', togglePopup);
 formElement.addEventListener('submit', formSubmitHandler);
 addButton.addEventListener('click', createForm);
+
+
