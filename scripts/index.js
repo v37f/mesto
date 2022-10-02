@@ -1,15 +1,16 @@
-let profileEditButton = document.querySelector('.profile__edit-button');
-let popup = document.querySelector('.popup');
-let popupCloseButtons = document.querySelectorAll('.popup__close');
-let formElement = document.querySelector('.form');
-let topInput = document.querySelector('.form__input_top');
-let bottomInput = document.querySelector('.form__input_bottom');
-let profileName = document.querySelector('.profile__name');
-let profileJob = document.querySelector('.profile__job');
+const profileEditButton = document.querySelector('.profile__edit-button');
+const formPopup = document.querySelector('.popup_type_form');
+const popupCloseButtons = document.querySelectorAll('.popup__close');
+const formElement = document.querySelector('.form');
+const topInput = document.querySelector('.form__input_top');
+const bottomInput = document.querySelector('.form__input_bottom');
+const profileName = document.querySelector('.profile__name');
+const profileJob = document.querySelector('.profile__job');
 const addButton = document.querySelector('.profile__add-button')
-
-
 const photoPopup = document.querySelector('.popup_type_photo');
+const elementsContainer = document.querySelector('.elements__container');
+const cardTemplate = document.querySelector('.element-template');
+let popupCaller = null; // хранит элемент который вызвал попап
 
 // массив мест
 const initialCards = [
@@ -39,16 +40,11 @@ const initialCards = [
   }
 ];
 
-const elementsContainer = document.querySelector('.elements__container');
-const cardTemplate = document.querySelector('.element-template');
-let formCaller = null; // хранит элемент который вызвал форму
-
 // функция отрисовки карточек мест из массива
 const render = () => {
   initialCards.forEach((item) => {
     const currentItem = createItemNode(item.name, item.link);
     elementsContainer.append(currentItem);
-
   });
 };
 
@@ -57,51 +53,54 @@ const createItemNode = (name, link) => {
   const currentItem = cardTemplate.content.cloneNode(true);
   const currentTitle = currentItem.querySelector('.element__title');
   currentTitle.textContent = name;
-
   const currentImage = currentItem.querySelector('.element__image');
   currentImage.setAttribute('src', link);
   currentImage.setAttribute('alt', 'Не удалось загрузить картинку!');
-
-  currentItem.querySelector('.element__like-button').addEventListener('click', function (evt) {
-    evt.target.classList.toggle('element__like-button_active');
-  });
-
-  currentItem.querySelector('.element__delete-button').addEventListener('click', function (evt) {
-    const currentEl = evt.target.closest('.element');
-    currentEl.remove();
-
-
-  });
-
-  currentImage.addEventListener('click', function () {
-    const popupImage = document.querySelector('.popup__image');
-    const popupImageTitle = document.querySelector('.popup__image-title');
-    popupImage.setAttribute('src', link);
-    popupImageTitle.textContent = name;
-    photoPopup.classList.add('popup_opened');
-  });
-
+  currentImage.addEventListener('click', createPhotoPopup);
+  currentItem.querySelector('.element__like-button').addEventListener('click', likeElement);
+  currentItem.querySelector('.element__delete-button').addEventListener('click', deleteElement);
   return currentItem;
 }
 
-render();
+// функция лайка карточки
+const likeElement = (evt) => {
+  evt.target.classList.toggle('element__like-button_active');
+}
 
+// функция удаления карточки
+const deleteElement = (evt) => {
+  const currentEl = evt.target.closest('.element');
+  currentEl.remove();
+}
+
+// функция "сборки" попапа фотографии
+const createPhotoPopup = (evt) => {
+  const popupImage = document.querySelector('.popup__image');
+  const popupImageTitle = document.querySelector('.popup__image-title');
+  popupImage.setAttribute('src', evt.target.getAttribute('src'));
+  popupImageTitle.textContent = evt.target.nextElementSibling.firstElementChild.textContent;
+  openPopup(evt.target);
+}
+
+// функция открытия попапа
 const openPopup = (popupCaller) => {
   if (popupCaller === profileEditButton || popupCaller === addButton) {
-    popup.classList.add('popup_opened');
+    formPopup.classList.add('popup_opened');
+  } else {
+    photoPopup.classList.add('popup_opened');
   }
 }
 
+// функция закрытия попапа
 const closePopup = () => {
-  popup.classList.remove('popup_opened');
+  formPopup.classList.remove('popup_opened');
   photoPopup.classList.remove('popup_opened');
 }
 
-
-const createForm = (evt) => {
-  let formTitle = document.querySelector('.popup__title');
-  let formButton = document.querySelector('.form__button');
-
+// функции "сборки" формы в зависимости от того, кто вызвал попап
+const createFormPopup = (evt) => {
+  const formTitle = document.querySelector('.popup__title');
+  const formButton = document.querySelector('.form__button');
   if (evt.target.classList.contains('profile__edit-button')) {
     formTitle.textContent = 'Редактировать профиль';
     topInput.value = profileName.textContent;
@@ -117,14 +116,14 @@ const createForm = (evt) => {
     bottomInput.setAttribute('placeholder', 'Ссылка на картинку');
     formButton.textContent = 'Создать';
   }
-  formCaller = evt.target;
-  openPopup(formCaller);
+  popupCaller = evt.target;
+  openPopup(popupCaller);
 }
 
-
+// функция сабмита формы, в зависимости от того кто вызвал попап
 const formSubmitHandler = (evt) => {
   evt.preventDefault();
-  if (formCaller.classList.contains('profile__edit-button')) {
+  if (popupCaller.classList.contains('profile__edit-button')) {
   profileName.textContent = topInput.value;
   profileJob.textContent = bottomInput.value;
   } else {
@@ -134,11 +133,11 @@ const formSubmitHandler = (evt) => {
   closePopup();
 }
 
-profileEditButton.addEventListener('click', createForm);
+render();
 
+profileEditButton.addEventListener('click', createFormPopup);
 formElement.addEventListener('submit', formSubmitHandler);
-addButton.addEventListener('click', createForm);
-
+addButton.addEventListener('click', createFormPopup);
 popupCloseButtons.forEach((button) => {
   button.addEventListener('click', closePopup);
 })
