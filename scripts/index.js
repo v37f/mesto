@@ -1,6 +1,6 @@
 let profileEditButton = document.querySelector('.profile__edit-button');
 let popup = document.querySelector('.popup');
-let popupCloseButton = document.querySelector('.popup__close');
+let popupCloseButtons = document.querySelectorAll('.popup__close');
 let formElement = document.querySelector('.form');
 let topInput = document.querySelector('.form__input_top');
 let bottomInput = document.querySelector('.form__input_bottom');
@@ -86,10 +86,17 @@ const createItemNode = (name, link) => {
 
 render();
 
-
-const togglePopup = () => {
-  popup.classList.toggle('popup_opened');
+const openPopup = (popupCaller) => {
+  if (popupCaller === profileEditButton || popupCaller === addButton) {
+    popup.classList.add('popup_opened');
+  }
 }
+
+const closePopup = () => {
+  popup.classList.remove('popup_opened');
+  photoPopup.classList.remove('popup_opened');
+}
+
 
 const createForm = (evt) => {
   let formTitle = document.querySelector('.popup__title');
@@ -111,7 +118,7 @@ const createForm = (evt) => {
     formButton.textContent = 'Создать';
   }
   formCaller = evt.target;
-  togglePopup();
+  openPopup(formCaller);
 }
 
 
@@ -124,12 +131,16 @@ const formSubmitHandler = (evt) => {
     const card = createItemNode(topInput.value, bottomInput.value);
     elementsContainer.prepend(card);
   }
-  togglePopup();
+  closePopup();
 }
 
 profileEditButton.addEventListener('click', createForm);
-popupCloseButton.addEventListener('click', togglePopup);
+
 formElement.addEventListener('submit', formSubmitHandler);
 addButton.addEventListener('click', createForm);
+
+popupCloseButtons.forEach((button) => {
+  button.addEventListener('click', closePopup);
+})
 
 
