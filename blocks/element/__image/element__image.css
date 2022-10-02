@@ -5,4 +5,10 @@
   object-fit: cover;
   object-position: center top;
   border-radius: 10px 10px 0 0;
+  cursor: pointer;
+  transition: opacity .4s ease;
+}
+
+.element__image:hover {
+  opacity: .7;
 }
