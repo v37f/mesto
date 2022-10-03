@@ -48,28 +48,44 @@
       <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
     </footer>
 
-    <!-- начало блока popup -->
-    <div class="popup popup_type_form">
+    <!-- начало блока popup_type_edit-profile -->
+    <div class="popup popup_type_edit-profile">
       <div class="popup__container popup__container_type_form">
         <button class="popup__close" type="button" aria-label="Закрыть окно" title="Закрыть"></button>
-        <h2 class="popup__title">Название</h2>
-        <form action="#" class="form" name="form">
+        <h2 class="popup__title">Редактировать профиль</h2>
+        <form action="#" class="form form_type_edit-profile" name="form">
           <fieldset class="form__info">
-            <input type="text" name="top-input" class="form__input form__input_top" required>
-            <input type="text" name="botton-input" class="form__input form__input_bottom" required>
-            <button type="submit" class="form__button"></button>
+            <input type="text" name="profile-name" class="form__input form__input_type_profile-name" placeholder="Имя" required>
+            <input type="text" name="profile-job" class="form__input form__input_type_profile-job" placeholder="О себе" required>
+            <button type="submit" class="form__button">Сохранить</button>
           </fieldset>
         </form>
       </div>
     </div>
-    <!-- конец блока popup -->
+    <!-- конец блока popup_type_form -->
 
-    <!-- photo-popup -->
-    <div class="popup popup_type_photo">
-      <div class="popup__container popup__container_type_photo">
+    <!-- начало блока popup_type_add-place -->
+    <div class="popup popup_type_add-place">
+      <div class="popup__container popup__container_type_form">
+        <button class="popup__close" type="button" aria-label="Закрыть окно" title="Закрыть"></button>
+        <h2 class="popup__title">Новое место</h2>
+        <form action="#" class="form form_type_add-place" name="form">
+          <fieldset class="form__info">
+            <input type="text" name="place-title" class="form__input form__input_type_place-title" placeholder="Название" required>
+            <input type="text" name="place-image-link" class="form__input form__input_type_place-image-link" placeholder="Ссылка на картинку" required>
+            <button type="submit" class="form__button">Создать</button>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+    <!-- конец блока popup_type_form -->
+
+    <!-- начало блока popup_type_image -->
+    <div class="popup popup_type_image">
+      <div class="popup__container popup__container_type_image">
         <button class="popup__close" type="button" aria-label="Закрыть окно" title="Закрыть"></button>
         <h2 class="popup__image-title">Название</h2>
-        <img class="popup__image" src="#" alt="Не удалось загрузить картинку!">
+        <img class="popup__image" src="#" alt="Название">
       </div>
     </div>
 
