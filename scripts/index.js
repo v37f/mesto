@@ -16,9 +16,11 @@ const profileJobInput = document.querySelector('.form__input_type_profile-job');
 const placeTitleInput = document.querySelector('.form__input_type_place-title');
 const placeImageLinkInput = document.querySelector('.form__input_type_place-image-link');
 
-// текстовые поля
+// текстовые поля и картинки
 const profileName = document.querySelector('.profile__name');
 const profileJob = document.querySelector('.profile__job');
+const popupImage = imagePopup.querySelector('.popup__image');
+const popupImageTitle = imagePopup.querySelector('.popup__image-title');
 
 //контейнеры и темплейты
 const elementsContainer = document.querySelector('.elements__container');
@@ -68,7 +70,7 @@ const createPlaceElement = (placeTitle, placeImageLink) => {
   const currentImage = currentItem.querySelector('.element__image');
   currentImage.setAttribute('src', placeImageLink);
   currentImage.setAttribute('alt', placeTitle);
-  currentImage.addEventListener('click', createImagePopup);
+  currentImage.addEventListener('click', () => createImagePopup(placeTitle, placeImageLink));
   currentItem.querySelector('.element__like-button').addEventListener('click', handleLikeButton);
   currentItem.querySelector('.element__delete-button').addEventListener('click', handleDeleteButton);
   return currentItem;
@@ -86,12 +88,10 @@ const handleDeleteButton = (evt) => {
 }
 
 // функция "сборки" попапа фотографии
-const createImagePopup = (evt) => {
-  const popupImage = imagePopup.querySelector('.popup__image');
-  const popupImageTitle = imagePopup.querySelector('.popup__image-title');
-  popupImageTitle.textContent = evt.target.nextElementSibling.firstElementChild.textContent;
-  popupImage.setAttribute('src', evt.target.getAttribute('src'));
-  popupImage.setAttribute('alt', popupImageTitle.textContent);
+const createImagePopup = (title, link) => {
+  popupImageTitle.textContent = title;
+  popupImage.setAttribute('src', link);
+  popupImage.setAttribute('alt', title);
   openPopup(imagePopup);
 }
 
@@ -130,14 +130,8 @@ const handleProfileEditButton = () => {
 
 // функция обработчика кнопки добавления карточки
 const handlePlaceAddButton = () => {
-  placeTitleInput.value = '';
-  placeImageLinkInput.value = '';
+  placeAddForm.reset();
   openPopup(placeAddPopup);
-}
-
-// функция обработчика кнопки закрытия попапа
-const handlePopupCloseButton = (evt) => {
-  closePopup(evt.target.closest('.popup'));
 }
 
 render();
@@ -148,7 +142,8 @@ profileEditForm.addEventListener('submit', handleProfileEditFormSubmit);
 placeAddButton.addEventListener('click', handlePlaceAddButton);
 placeAddForm.addEventListener('submit', handlePlaceAddFormSubmit);
 popupCloseButtons.forEach((button) => {
-  button.addEventListener('click', handlePopupCloseButton);
+  const popup = button.closest('.popup');
+  button.addEventListener('click', () => closePopup(popup));
 });
 
 
