@@ -53,10 +53,10 @@
       <div class="popup__container popup__container_type_form">
         <button class="popup__close" type="button" aria-label="Закрыть окно" title="Закрыть"></button>
         <h2 class="popup__title">Редактировать профиль</h2>
-        <form action="#" class="form form_type_edit-profile" name="form">
+        <form action="#" class="form form_type_edit-profile" name="form" novalidate>
           <fieldset class="form__info">
-            <input type="text" name="profile-name" class="form__input form__input_type_profile-name" placeholder="Имя" required>
-            <input type="text" name="profile-job" class="form__input form__input_type_profile-job" placeholder="О себе" required>
+            <input type="text" name="profile-name" class="form__input form__input_type_profile-name" placeholder="Имя" minlength="2" maxlength="40" required>
+            <input type="text" name="profile-job" class="form__input form__input_type_profile-job" placeholder="О себе" minlength="2" maxlength="200" required>
             <button type="submit" class="form__button">Сохранить</button>
           </fieldset>
         </form>
@@ -69,10 +69,10 @@
       <div class="popup__container popup__container_type_form">
         <button class="popup__close" type="button" aria-label="Закрыть окно" title="Закрыть"></button>
         <h2 class="popup__title">Новое место</h2>
-        <form action="#" class="form form_type_add-place" name="form">
+        <form action="#" class="form form_type_add-place" name="form" novalidate>
           <fieldset class="form__info">
-            <input type="text" name="place-title" class="form__input form__input_type_place-title" placeholder="Название" required>
-            <input type="text" name="place-image-link" class="form__input form__input_type_place-image-link" placeholder="Ссылка на картинку" required>
+            <input type="text" name="place-title" class="form__input form__input_type_place-title" placeholder="Название" minlength="2" maxlength="30" required>
+            <input type="url" name="place-image-link" class="form__input form__input_type_place-image-link" placeholder="Ссылка на картинку" required>
             <button type="submit" class="form__button">Создать</button>
           </fieldset>
         </form>
@@ -104,5 +104,6 @@
     <!-- конец темплейта карточки места -->
   </div>
   <script src="scripts/index.js"></script>
+  <script src="scripts/validate.js"></script>
 </body>
 </html>
