@@ -55,7 +55,8 @@
         <h2 class="popup__title">Редактировать профиль</h2>
         <form action="#" class="form form_type_edit-profile" name="form" novalidate>
           <fieldset class="form__info">
-            <input type="text" name="profile-name" class="form__input form__input_type_profile-name" placeholder="Имя" minlength="2" maxlength="40" required>
+            <input type="text" id="profile-name" name="profile-name" class="form__input form__input_type_profile-name" placeholder="Имя" minlength="2" maxlength="40" required>
+            <span class="profile-name-error">Необходимо заполнить данное поле</span>
             <input type="text" name="profile-job" class="form__input form__input_type_profile-job" placeholder="О себе" minlength="2" maxlength="200" required>
             <button type="submit" class="form__button">Сохранить</button>
           </fieldset>
