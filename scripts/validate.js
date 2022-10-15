@@ -1,7 +1,5 @@
 // функция включения валидация, принимает навход объект с настройками
 const enableValidation = (validationSettings) => {
-
-  const a = 123;
   // находим все формы на странице
   const formList = Array.from(document.querySelectorAll(validationSettings.formSelector));
   // перебераем массив форм

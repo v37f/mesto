@@ -100,6 +100,26 @@ const createImagePopup = (title, link) => {
 // функция открытия попапа
 const openPopup = (popup) => {
   popup.classList.add('popup_opened');
+  popup.addEventListener('click', closePopupByClickingOverlay);
+  document.addEventListener('keydown', closePopupByEsc);
+}
+
+// функция закрыти попапа по клику на оверлей
+const closePopupByClickingOverlay = (evt) => {
+  const popup = evt.currentTarget;
+  if (evt.target == popup) {
+    closePopup(evt.currentTarget);
+    popup.removeEventListener('click', closePopupByClickingOverlay);
+  };
+}
+
+// функция закрытия попапа по нажатию Esc
+const closePopupByEsc = (evt) => {
+  if (evt.key == 'Escape') {
+    const openedPopup = document.querySelector('.popup_opened');
+    closePopup(openedPopup);
+    document.removeEventListener('keydown', closePopupByEsc);
+  };
 }
 
 // функция закрытия попапа
