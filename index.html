@@ -56,8 +56,9 @@
         <form action="#" class="form form_type_edit-profile" name="form" novalidate>
           <fieldset class="form__info">
             <input type="text" id="profile-name" name="profile-name" class="form__input form__input_type_profile-name" placeholder="Имя" minlength="2" maxlength="40" required>
-            <span class="profile-name-error">Необходимо заполнить данное поле</span>
-            <input type="text" name="profile-job" class="form__input form__input_type_profile-job" placeholder="О себе" minlength="2" maxlength="200" required>
+            <span class="profile-name-error form__input-error"></span>
+            <input type="text" id="profile-job" name="profile-job" class="form__input form__input_type_profile-job" placeholder="О себе" minlength="2" maxlength="200" required>
+            <span class="profile-job-error form__input-error"></span>
             <button type="submit" class="form__button">Сохранить</button>
           </fieldset>
         </form>
@@ -72,8 +73,10 @@
         <h2 class="popup__title">Новое место</h2>
         <form action="#" class="form form_type_add-place" name="form" novalidate>
           <fieldset class="form__info">
-            <input type="text" name="place-title" class="form__input form__input_type_place-title" placeholder="Название" minlength="2" maxlength="30" required>
-            <input type="url" name="place-image-link" class="form__input form__input_type_place-image-link" placeholder="Ссылка на картинку" required>
+            <input type="text" id="place-title" name="place-title" class="form__input form__input_type_place-title" placeholder="Название" minlength="2" maxlength="30" required>
+            <span class="place-title-error form__input-error"></span>
+            <input type="url" id="place-image-link" name="place-image-link" class="form__input form__input_type_place-image-link" placeholder="Ссылка на картинку" required>
+            <span class="place-image-link-error form__input-error"></span>
             <button type="submit" class="form__button">Создать</button>
           </fieldset>
         </form>

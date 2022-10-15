@@ -18,7 +18,7 @@
   transition: opacity .4s ease;
 }
 
-.form__button:hover {
+.form__button:hover:not([disabled]) {
   opacity: .8;
 }
 

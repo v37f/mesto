@@ -10,17 +10,19 @@ const profileEditPopup = document.querySelector('.popup_type_edit-profile');
 const placeAddPopup = document.querySelector('.popup_type_add-place');
 const imagePopup = document.querySelector('.popup_type_image');
 
-// инпуты
-const profileNameInput = document.querySelector('.form__input_type_profile-name');
-const profileJobInput = document.querySelector('.form__input_type_profile-job');
-const placeTitleInput = document.querySelector('.form__input_type_place-title');
-const placeImageLinkInput = document.querySelector('.form__input_type_place-image-link');
-
 // текстовые поля и картинки
 const profileName = document.querySelector('.profile__name');
 const profileJob = document.querySelector('.profile__job');
 const popupImage = imagePopup.querySelector('.popup__image');
 const popupImageTitle = imagePopup.querySelector('.popup__image-title');
+
+// инпуты
+const profileNameInput = document.querySelector('.form__input_type_profile-name');
+profileNameInput.value = profileName.textContent;
+const profileJobInput = document.querySelector('.form__input_type_profile-job');
+profileJobInput.value = profileJob.textContent;
+const placeTitleInput = document.querySelector('.form__input_type_place-title');
+const placeImageLinkInput = document.querySelector('.form__input_type_place-image-link');
 
 //контейнеры и темплейты
 const elementsContainer = document.querySelector('.elements__container');
@@ -60,7 +62,7 @@ const render = () => {
     const currentItem = createPlaceElement(item.name, item.link);
     elementsContainer.append(currentItem);
   });
-};
+}
 
 // функция формирования карточки места
 const createPlaceElement = (placeTitle, placeImageLink) => {
@@ -123,8 +125,6 @@ const handlePlaceAddFormSubmit = (evt) => {
 
 // функция обработчика кнопки редактирования профиля
 const handleProfileEditButton = () => {
-  profileNameInput.value = profileName.textContent;
-  profileJobInput.value = profileJob.textContent;
   openPopup(profileEditPopup);
 }
 
