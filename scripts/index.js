@@ -1,9 +1,9 @@
 // кнопки и формы
 const profileEditButton = document.querySelector('.profile__edit-button');
 const placeAddButton = document.querySelector('.profile__add-button')
-const popupCloseButtons = document.querySelectorAll('.popup__close');
 const profileEditForm = document.querySelector('.form_type_edit-profile');
 const placeAddForm = document.querySelector('.form_type_add-place');
+const placeAddFormSubmitButton = placeAddForm.querySelector('.form__button');
 
 // попапы
 const profileEditPopup = document.querySelector('.popup_type_edit-profile');
@@ -100,16 +100,14 @@ const createImagePopup = (title, link) => {
 // функция открытия попапа
 const openPopup = (popup) => {
   popup.classList.add('popup_opened');
-  popup.addEventListener('click', closePopupByClickingOverlay);
+  popup.addEventListener('click', closePopupByClickingOverlayOrCross);
   document.addEventListener('keydown', closePopupByEsc);
 }
 
-// функция закрыти попапа по клику на оверлей
-const closePopupByClickingOverlay = (evt) => {
-  const popup = evt.currentTarget;
-  if (evt.target == popup) {
+// функция закрыти попапа по клику на оверлей или крестик
+const closePopupByClickingOverlayOrCross = (evt) => {
+  if (evt.target == evt.currentTarget || evt.target.classList.contains('popup__close')) {
     closePopup(evt.currentTarget);
-    popup.removeEventListener('click', closePopupByClickingOverlay);
   };
 }
 
@@ -118,13 +116,26 @@ const closePopupByEsc = (evt) => {
   if (evt.key == 'Escape') {
     const openedPopup = document.querySelector('.popup_opened');
     closePopup(openedPopup);
-    document.removeEventListener('keydown', closePopupByEsc);
   };
 }
 
 // функция закрытия попапа
 const closePopup = (popup) => {
   popup.classList.remove('popup_opened');
+  popup.removeEventListener('click', closePopupByClickingOverlayOrCross);
+  document.removeEventListener('keydown', closePopupByEsc);
+  // чтобы при следующем открытии попапа добавления места кнопка 'создать'
+  //  была неактивна(т.к. форма ресетнится и поля будут пустые, но скрипт
+  // валидации не может это отследить) отключаем ее при закрытии попапа
+  if (popup == placeAddPopup) {
+    disablePlaceAddFormSubmitButton();
+  };
+}
+
+// функция отключения кнопки создания карточки
+const disablePlaceAddFormSubmitButton = () => {
+  placeAddFormSubmitButton.setAttribute('disabled', true);
+  placeAddFormSubmitButton.classList.add('form__button_disabled');
 }
 
 // функция обработчика сабмита формы редактирования профиля
@@ -145,6 +156,8 @@ const handlePlaceAddFormSubmit = (evt) => {
 
 // функция обработчика кнопки редактирования профиля
 const handleProfileEditButton = () => {
+  profileNameInput.value = profileName.textContent;
+  profileJobInput.value = profileJob.textContent;
   openPopup(profileEditPopup);
 }
 
@@ -161,9 +174,5 @@ profileEditButton.addEventListener('click', handleProfileEditButton);
 profileEditForm.addEventListener('submit', handleProfileEditFormSubmit);
 placeAddButton.addEventListener('click', handlePlaceAddButton);
 placeAddForm.addEventListener('submit', handlePlaceAddFormSubmit);
-popupCloseButtons.forEach((button) => {
-  const popup = button.closest('.popup');
-  button.addEventListener('click', () => closePopup(popup));
-});
 
 
