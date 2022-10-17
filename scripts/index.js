@@ -124,12 +124,6 @@ const closePopup = (popup) => {
   popup.classList.remove('popup_opened');
   popup.removeEventListener('click', closePopupByClickingOverlayOrCross);
   document.removeEventListener('keydown', closePopupByEsc);
-  // чтобы при следующем открытии попапа добавления места кнопка 'создать'
-  //  была неактивна(т.к. форма ресетнится и поля будут пустые, но скрипт
-  // валидации не может это отследить) отключаем ее при закрытии попапа
-  if (popup == placeAddPopup) {
-    disablePlaceAddFormSubmitButton();
-  };
 }
 
 // функция отключения кнопки создания карточки
@@ -164,6 +158,10 @@ const handleProfileEditButton = () => {
 // функция обработчика кнопки добавления карточки
 const handlePlaceAddButton = () => {
   placeAddForm.reset();
+  // чтобы после предыдущего открытия попапа добавления места кнопка 'создать'
+  //  была неактивна(т.к. форма ресетнится и поля будут пустые, но скрипт
+  // валидации не может это отследить) отключаем ее после ресета формы
+  disablePlaceAddFormSubmitButton();
   openPopup(placeAddPopup);
 }
 
