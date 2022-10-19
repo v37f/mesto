@@ -152,18 +152,34 @@ const handlePlaceAddFormSubmit = (evt) => {
 const handleProfileEditButton = () => {
   profileNameInput.value = profileName.textContent;
   profileJobInput.value = profileJob.textContent;
+  hideInputsValidationErrors(profileEditForm);
   openPopup(profileEditPopup);
 }
 
 // функция обработчика кнопки добавления карточки
 const handlePlaceAddButton = () => {
   placeAddForm.reset();
+  hideInputsValidationErrors(placeAddForm);
   // чтобы после предыдущего открытия попапа добавления места кнопка 'создать'
   //  была неактивна(т.к. форма ресетнится и поля будут пустые, но скрипт
   // валидации не может это отследить) отключаем ее после ресета формы
   disablePlaceAddFormSubmitButton();
   openPopup(placeAddPopup);
 }
+
+// функция скрытия ошибок валидации
+const hideInputsValidationErrors = (formElement) => {
+  const inputList = Array.from(formElement.querySelectorAll('.form__input'));
+  inputList.forEach((inputElement) => {
+    inputElement.classList.remove('form__input_not-valid');
+  });
+  const errorElementsList = Array.from(formElement.querySelectorAll('.form__input-error'));
+  errorElementsList.forEach((errorElement) => {
+    errorElement.classList.remove('form__input-error_visible');
+    errorElement.textContent = '';
+  });
+}
+
 
 render();
 
