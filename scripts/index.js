@@ -31,7 +31,8 @@ const placeImageLinkInput = document.querySelector('.form__input_type_place-imag
 const elementsContainer = document.querySelector('.elements__container');
 const cardTemplate = '.element-template';
 
-// массив мест
+// данные
+const newCardData = {name: null, link: null};
 const initialCards = [
   {
     name: 'Архыз',
@@ -61,38 +62,12 @@ const initialCards = [
 
 // функция отрисовки карточек мест из массива
 const render = () => {
-  initialCards.forEach((item) => {
-    const card = new Card(item, cardTemplate);
+  initialCards.forEach((cardData) => {
+    const card = new Card(cardData, cardTemplate);
     const cardElement = card.generateCard();
-    // const currentItem = createPlaceElement(item.name, item.link);
     elementsContainer.append(cardElement);
   });
 }
-
-// функция формирования карточки места
-// const createPlaceElement = (placeTitle, placeImageLink) => {
-//   const currentItem = cardTemplate.content.cloneNode(true);
-//   const currentTitle = currentItem.querySelector('.element__title');
-//   currentTitle.textContent = placeTitle;
-//   const currentImage = currentItem.querySelector('.element__image');
-//   currentImage.setAttribute('src', placeImageLink);
-//   currentImage.setAttribute('alt', placeTitle);
-//   currentImage.addEventListener('click', () => createImagePopup(placeTitle, placeImageLink));
-//   currentItem.querySelector('.element__like-button').addEventListener('click', handleLikeButton);
-//   currentItem.querySelector('.element__delete-button').addEventListener('click', handleDeleteButton);
-//   return currentItem;
-// }
-
-// // функция лайка карточки
-// const handleLikeButton = (evt) => {
-//   evt.target.classList.toggle('element__like-button_active');
-// }
-
-// // функция удаления карточки
-// const handleDeleteButton = (evt) => {
-//   const currentEl = evt.target.closest('.element');
-//   currentEl.remove();
-// }
 
 // функция "сборки" попапа фотографии
 export const createImagePopup = (title, link) => {
@@ -148,8 +123,11 @@ const handleProfileEditFormSubmit = (evt) => {
 // функция обработчика сабмита формы добавления карточки
 const handlePlaceAddFormSubmit = (evt) => {
   evt.preventDefault();
-  const place = createPlaceElement(placeTitleInput.value, placeImageLinkInput.value);
-  elementsContainer.prepend(place);
+  newCardData.name = placeTitleInput.value,
+  newCardData.link = placeImageLinkInput.value
+
+  const newCard = new Card(newCardData, cardTemplate).generateCard();
+  elementsContainer.prepend(newCard);
   closePopup(placeAddPopup);
 }
 
@@ -165,9 +143,6 @@ const handleProfileEditButton = () => {
 const handlePlaceAddButton = () => {
   placeAddForm.reset();
   hideInputsValidationErrors(placeAddForm);
-  // чтобы после предыдущего открытия попапа добавления места кнопка 'создать'
-  //  была неактивна(т.к. форма ресетнится и поля будут пустые, но скрипт
-  // валидации не может это отследить) отключаем ее после ресета формы
   disablePlaceAddFormSubmitButton();
   openPopup(placeAddPopup);
 }
@@ -184,7 +159,6 @@ const hideInputsValidationErrors = (formElement) => {
     errorElement.textContent = '';
   });
 }
-
 
 render();
 

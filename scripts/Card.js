@@ -18,7 +18,7 @@ export default class Card {
     return cardTemplate;
   }
 
-  // вешаем листенеры
+  // функция навешивания листенером элементам карточки
   _setEventListeners() {
     this._cardElement.querySelector('.element__like-button').addEventListener('click', () => {
       this._handleLikeButtonClick();
@@ -48,8 +48,7 @@ export default class Card {
     createImagePopup(this._title, this._image);
   }
 
-
-  // функция добавления данных в разметку и возвращение готовой карточки
+  // функция генерации карточки
   generateCard() {
     this._cardElement = this._getTemplate();
 
