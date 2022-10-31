@@ -1,3 +1,6 @@
+// импорты
+import Card from './Card.js';
+
 // кнопки и формы
 const profileEditButton = document.querySelector('.profile__edit-button');
 const placeAddButton = document.querySelector('.profile__add-button')
@@ -26,7 +29,7 @@ const placeImageLinkInput = document.querySelector('.form__input_type_place-imag
 
 //контейнеры и темплейты
 const elementsContainer = document.querySelector('.elements__container');
-const cardTemplate = document.querySelector('.element-template');
+const cardTemplate = '.element-template';
 
 // массив мест
 const initialCards = [
@@ -59,38 +62,40 @@ const initialCards = [
 // функция отрисовки карточек мест из массива
 const render = () => {
   initialCards.forEach((item) => {
-    const currentItem = createPlaceElement(item.name, item.link);
-    elementsContainer.append(currentItem);
+    const card = new Card(item, cardTemplate);
+    const cardElement = card.generateCard();
+    // const currentItem = createPlaceElement(item.name, item.link);
+    elementsContainer.append(cardElement);
   });
 }
 
 // функция формирования карточки места
-const createPlaceElement = (placeTitle, placeImageLink) => {
-  const currentItem = cardTemplate.content.cloneNode(true);
-  const currentTitle = currentItem.querySelector('.element__title');
-  currentTitle.textContent = placeTitle;
-  const currentImage = currentItem.querySelector('.element__image');
-  currentImage.setAttribute('src', placeImageLink);
-  currentImage.setAttribute('alt', placeTitle);
-  currentImage.addEventListener('click', () => createImagePopup(placeTitle, placeImageLink));
-  currentItem.querySelector('.element__like-button').addEventListener('click', handleLikeButton);
-  currentItem.querySelector('.element__delete-button').addEventListener('click', handleDeleteButton);
-  return currentItem;
-}
+// const createPlaceElement = (placeTitle, placeImageLink) => {
+//   const currentItem = cardTemplate.content.cloneNode(true);
+//   const currentTitle = currentItem.querySelector('.element__title');
+//   currentTitle.textContent = placeTitle;
+//   const currentImage = currentItem.querySelector('.element__image');
+//   currentImage.setAttribute('src', placeImageLink);
+//   currentImage.setAttribute('alt', placeTitle);
+//   currentImage.addEventListener('click', () => createImagePopup(placeTitle, placeImageLink));
+//   currentItem.querySelector('.element__like-button').addEventListener('click', handleLikeButton);
+//   currentItem.querySelector('.element__delete-button').addEventListener('click', handleDeleteButton);
+//   return currentItem;
+// }
 
-// функция лайка карточки
-const handleLikeButton = (evt) => {
-  evt.target.classList.toggle('element__like-button_active');
-}
+// // функция лайка карточки
+// const handleLikeButton = (evt) => {
+//   evt.target.classList.toggle('element__like-button_active');
+// }
 
-// функция удаления карточки
-const handleDeleteButton = (evt) => {
-  const currentEl = evt.target.closest('.element');
-  currentEl.remove();
-}
+// // функция удаления карточки
+// const handleDeleteButton = (evt) => {
+//   const currentEl = evt.target.closest('.element');
+//   currentEl.remove();
+// }
 
 // функция "сборки" попапа фотографии
-const createImagePopup = (title, link) => {
+export const createImagePopup = (title, link) => {
   popupImageTitle.textContent = title;
   popupImage.setAttribute('src', link);
   popupImage.setAttribute('alt', title);
