@@ -1,5 +1,6 @@
 // импорты
 import Card from './Card.js';
+import FormValidator from './FormValidator.js';
 
 // кнопки и формы
 const profileEditButton = document.querySelector('.profile__edit-button');
@@ -59,6 +60,17 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
+// настройки валидации
+const validationSettings = {
+  formSelector: '.form',
+  inputSelector: '.form__input',
+  submitButtonSelector: '.form__button',
+  inactiveButtonClass: 'form__button_disabled',
+  inputErrorClass: 'form__input_not-valid',
+  errorClass: 'form__input-error_visible'
+}
+
+const profileEditFormValidator = new FormValidator(validationSettings, profileEditForm);
 
 // функция отрисовки карточек мест из массива
 const render = () => {
@@ -161,7 +173,7 @@ const hideInputsValidationErrors = (formElement) => {
 }
 
 render();
-
+profileEditFormValidator.enableValidation();
 // слушатели
 profileEditButton.addEventListener('click', handleProfileEditButton);
 profileEditForm.addEventListener('submit', handleProfileEditFormSubmit);
