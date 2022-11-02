@@ -1,10 +1,9 @@
-import {createImagePopup} from './index.js';
-
 export default class Card {
-  constructor(data, templateSelector) {
+  constructor(data, templateSelector, openCardPopupFunction) {
     this._title = data.name;
     this._image = data.link;
     this._templateSelector = templateSelector;
+    this._openCardPopupFunction = openCardPopupFunction;
   }
 
   // получаем темплейт карточки
@@ -45,7 +44,7 @@ export default class Card {
 
   // функция обработки клика по картинке
   _handleImageClick() {
-    createImagePopup(this._title, this._image);
+    this._openCardPopupFunction(this._title, this._image);
   }
 
   // функция генерации карточки
@@ -61,3 +60,5 @@ export default class Card {
     return this._cardElement;
   }
 }
+
+

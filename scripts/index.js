@@ -76,14 +76,14 @@ const placeAddFormValidator = new FormValidator(validationSettings, placeAddForm
 // функция отрисовки карточек мест из массива
 const render = () => {
   initialCards.forEach((cardData) => {
-    const card = new Card(cardData, cardTemplate);
+    const card = new Card(cardData, cardTemplate, createImagePopup);
     const cardElement = card.generateCard();
     elementsContainer.append(cardElement);
   });
 }
 
 // функция "сборки" попапа фотографии
-export const createImagePopup = (title, link) => {
+const createImagePopup = (title, link) => {
   popupImageTitle.textContent = title;
   popupImage.setAttribute('src', link);
   popupImage.setAttribute('alt', title);
@@ -136,13 +136,11 @@ const handleProfileEditFormSubmit = (evt) => {
 // функция обработчика сабмита формы добавления карточки
 const handlePlaceAddFormSubmit = (evt) => {
   evt.preventDefault();
-
   const newCardData = {
     name: placeTitleInput.value,
     link: placeImageLinkInput.value
   };
-
-  const newCard = new Card(newCardData, cardTemplate).generateCard();
+  const newCard = new Card(newCardData, cardTemplate, createImagePopup).generateCard();
   elementsContainer.prepend(newCard);
   closePopup(placeAddPopup);
 }
