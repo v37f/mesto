@@ -33,7 +33,6 @@ const elementsContainer = document.querySelector('.elements__container');
 const cardTemplate = '.element-template';
 
 // данные
-const newCardData = {name: null, link: null};
 const initialCards = [
   {
     name: 'Архыз',
@@ -60,9 +59,9 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
+
 // настройки валидации
 const validationSettings = {
-  formSelector: '.form',
   inputSelector: '.form__input',
   submitButtonSelector: '.form__button',
   inactiveButtonClass: 'form__button_disabled',
@@ -70,7 +69,9 @@ const validationSettings = {
   errorClass: 'form__input-error_visible'
 }
 
+// Валидаторы форм
 const profileEditFormValidator = new FormValidator(validationSettings, profileEditForm);
+const placeAddFormValidator = new FormValidator(validationSettings, placeAddForm);
 
 // функция отрисовки карточек мест из массива
 const render = () => {
@@ -135,8 +136,11 @@ const handleProfileEditFormSubmit = (evt) => {
 // функция обработчика сабмита формы добавления карточки
 const handlePlaceAddFormSubmit = (evt) => {
   evt.preventDefault();
-  newCardData.name = placeTitleInput.value,
-  newCardData.link = placeImageLinkInput.value
+
+  const newCardData = {
+    name: placeTitleInput.value,
+    link: placeImageLinkInput.value
+  };
 
   const newCard = new Card(newCardData, cardTemplate).generateCard();
   elementsContainer.prepend(newCard);
@@ -172,8 +176,15 @@ const hideInputsValidationErrors = (formElement) => {
   });
 }
 
+// отрендерим карточи при первоначальной загрузке страницы
 render();
+
+// включим валидацию формы редактирования профиля
 profileEditFormValidator.enableValidation();
+
+// включим валидацию формы добаления ккарточки
+placeAddFormValidator.enableValidation();
+
 // слушатели
 profileEditButton.addEventListener('click', handleProfileEditButton);
 profileEditForm.addEventListener('submit', handleProfileEditFormSubmit);
