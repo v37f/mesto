@@ -19,7 +19,7 @@ export default class Card {
 
   // функция навешивания листенером элементам карточки
   _setEventListeners() {
-    this._cardElement.querySelector('.element__like-button').addEventListener('click', () => {
+    this._likeButton.addEventListener('click', () => {
       this._handleLikeButtonClick();
     });
 
@@ -34,7 +34,7 @@ export default class Card {
 
   // функция обработки клика по лайку
   _handleLikeButtonClick() {
-    this._cardElement.querySelector('.element__like-button').classList.toggle('element__like-button_active');
+    this._likeButton.classList.toggle('element__like-button_active');
   }
 
   // функция обработки клика по кнопке удаления
@@ -50,6 +50,7 @@ export default class Card {
   // функция генерации карточки
   generateCard() {
     this._cardElement = this._getTemplate();
+    this._likeButton = this._cardElement.querySelector('.element__like-button');
 
     this._setEventListeners();
 
