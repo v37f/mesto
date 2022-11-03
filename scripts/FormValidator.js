@@ -1,28 +1,24 @@
 export default class FormValidator {
   constructor(settings, form) {
-    this._inputSelector = settings.inputSelector;
+    this._form = form;
     this._submitButtonSelector = settings.submitButtonSelector;
     this._inactiveButtonClass = settings.inactiveButtonClass;
     this._inputErrorClass = settings.inputErrorClass;
     this._errorClass = settings.errorClass;
-
-    this._form = form;
+    this._inputList = Array.from(form.querySelectorAll(settings.inputSelector));
+    this._buttonElement = form.querySelector(this._submitButtonSelector);
   }
 
   // функция установки листенеров на инпуты
   _setEventListeners() {
-    // создаем массив инпутов формы
-    this._inputList = Array.from(this._form.querySelectorAll(this._inputSelector));
-    // получаем элемент кнопки submit для управления ее состоянием
-    this._buttonElement = this._form.querySelector(this._submitButtonSelector);
     // сделаем кнопку неактивной при изначально пустых полях
     this._toggleButtonState();
     // пройдем по каждому инпуту в массиве
-    this._inputList.forEach((_input) => {
+    this._inputList.forEach((input) => {
       // для каждого инпута навесим слушатель
-      _input.addEventListener('input', () => {
+      input.addEventListener('input', () => {
         // и проверим на валидность
-        this._isValid(_input);
+        this._isValid(input);
         // так же изменим состояние кнопки
         this._toggleButtonState();
       });
@@ -30,33 +26,33 @@ export default class FormValidator {
   }
 
   // Функция проверки валидность поля
-  _isValid(_input) {
-    if (!_input.validity.valid) {
+  _isValid(input) {
+    if (!input.validity.valid) {
       // Если поле не проходит валидацию, покажем ошибку
-      this._showInputError(_input);
+      this._showInputError(input);
     } else {
       // Если проходит, скроем
-      this._hideInputError(_input);
+      this._hideInputError(input);
     }
   }
 
     // Функция, которая добавляет класс с ошибкой
-  _showInputError(_input) {
+  _showInputError(input) {
     // получим переменную элемента ошибки
-    this._errorElement = this._form.querySelector(`.${_input.id}-error`);
+    this._errorElement = this._form.querySelector(`.${input.id}-error`);
     // добавим инпуту стили невалидности
-    _input.classList.add(this._inputErrorClass);
+    input.classList.add(this._inputErrorClass);
     // Показываем сообщение об ошибке
-    this._errorElement.textContent = _input.validationMessage;
+    this._errorElement.textContent = input.validationMessage;
     this._errorElement.classList.add(this._errorClass);
   }
 
   // Функция, которая удаляет класс с ошибкой
-  _hideInputError(_input) {
+  _hideInputError(input) {
     // получаем переменную элемента ошибки
-    this._errorElement = this._form.querySelector(`.${_input.id}-error`);
+    this._errorElement = this._form.querySelector(`.${input.id}-error`);
     // убераем у инпута стили невалидности
-    _input.classList.remove(this._inputErrorClass);
+    input.classList.remove(this._inputErrorClass);
     // Скрываем сообщение об ошибке
     this._errorElement.classList.remove(this._errorClass);
     this._errorElement.textContent = '';
