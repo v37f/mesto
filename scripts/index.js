@@ -150,29 +150,16 @@ const handlePlaceAddFormSubmit = (evt) => {
 const handleProfileEditButton = () => {
   profileNameInput.value = profileName.textContent;
   profileJobInput.value = profileJob.textContent;
-  hideInputsValidationErrors(profileEditForm);
+  profileEditFormValidator.hideInputsValidationErrors();
   openPopup(profileEditPopup);
 }
 
 // функция обработчика кнопки добавления карточки
 const handlePlaceAddButton = () => {
   placeAddForm.reset();
-  hideInputsValidationErrors(placeAddForm);
+  placeAddFormValidator.hideInputsValidationErrors();
   disablePlaceAddFormSubmitButton();
   openPopup(placeAddPopup);
-}
-
-// функция скрытия ошибок валидации
-const hideInputsValidationErrors = (formElement) => {
-  const inputList = Array.from(formElement.querySelectorAll('.form__input'));
-  inputList.forEach((inputElement) => {
-    inputElement.classList.remove('form__input_not-valid');
-  });
-  const errorElementsList = Array.from(formElement.querySelectorAll('.form__input-error'));
-  errorElementsList.forEach((errorElement) => {
-    errorElement.classList.remove('form__input-error_visible');
-    errorElement.textContent = '';
-  });
 }
 
 // отрендерим карточи при первоначальной загрузке страницы

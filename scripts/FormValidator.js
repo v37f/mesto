@@ -36,7 +36,7 @@ export default class FormValidator {
     }
   }
 
-    // Функция, которая добавляет класс с ошибкой
+  // Функция, которая добавляет класс с ошибкой
   _showInputError(input) {
     // получим переменную элемента ошибки
     this._errorElement = this._form.querySelector(`.${input.id}-error`);
@@ -83,6 +83,12 @@ export default class FormValidator {
     });
   }
 
+  // функция скрытия ошибок валидации
+  hideInputsValidationErrors = () => {
+    this._inputList.forEach((input) => {
+      this._hideInputError(input);
+    });
+  }
   // функция включения валидации
   enableValidation() {
     this._setEventListeners();
