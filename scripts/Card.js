@@ -1,7 +1,7 @@
 export default class Card {
   constructor(data, templateSelector, handleImageClick) {
     this._title = data.name;
-    this._image = data.link;
+    this._imageLink = data.link;
     this._templateSelector = templateSelector;
     this._handleImageClick = handleImageClick;
   }
@@ -27,7 +27,7 @@ export default class Card {
       this._handleDeleteButtonClick();
     });
 
-    this._cardElement.querySelector('.element__image').addEventListener('click', () => {
+    this._image.addEventListener('click', () => {
       // передаем в функцию обработчкиа клика данные в качестве объекта
       this._handleImageClick(this);
     });
@@ -51,20 +51,21 @@ export default class Card {
   }
 
   // геттер для картинки
-  get image() {
-    return this._image;
+  get imageLink() {
+    return this._imageLink;
   }
 
   // функция генерации карточки
   generateCard() {
     this._cardElement = this._getTemplate();
     this._likeButton = this._cardElement.querySelector('.element__like-button');
+    this._image = this._cardElement.querySelector('.element__image');
+
+    this._image.src = this._imageLink;
+    this._image.alt = this._title;
+    this._cardElement.querySelector('.element__title').textContent = this._title;
 
     this._setEventListeners();
-
-    this._cardElement.querySelector('.element__title').textContent = this._title;
-    this._cardElement.querySelector('.element__image').src = this._image;
-    this._cardElement.querySelector('.element__image').alt = this._title;
 
     return this._cardElement;
   }

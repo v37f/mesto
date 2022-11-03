@@ -86,7 +86,7 @@ const render = () => {
 const openImagePopup = (card) => {
   // получаем данные карточки через геттеры
   popupImageTitle.textContent = card.title;
-  popupImage.src = card.image;
+  popupImage.src = card.imageLink;
   popupImage.alt = card.title;
   openPopup(imagePopup);
 }
