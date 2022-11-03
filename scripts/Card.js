@@ -1,9 +1,9 @@
 export default class Card {
-  constructor(data, templateSelector, openCardPopupFunction) {
+  constructor(data, templateSelector, handleImageClick) {
     this._title = data.name;
     this._image = data.link;
     this._templateSelector = templateSelector;
-    this._openCardPopupFunction = openCardPopupFunction;
+    this._handleImageClick = handleImageClick;
   }
 
   // получаем темплейт карточки
@@ -28,7 +28,8 @@ export default class Card {
     });
 
     this._cardElement.querySelector('.element__image').addEventListener('click', () => {
-      this._handleImageClick();
+      // передаем в функцию обработчкиа клика данные в качестве объекта
+      this._handleImageClick(this);
     });
   }
 
@@ -43,9 +44,15 @@ export default class Card {
     this._cardElement = null;
   }
 
-  // функция обработки клика по картинке
-  _handleImageClick() {
-    this._openCardPopupFunction(this._title, this._image);
+
+  // геттер для названия карточки
+  get title() {
+    return this._title;
+  }
+
+  // геттер для картинки
+  get image() {
+    return this._image;
   }
 
   // функция генерации карточки
