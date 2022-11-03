@@ -40,6 +40,7 @@ export default class Card {
   // функция обработки клика по кнопке удаления
   _handleDeleteButtonClick() {
     this._cardElement.remove();
+    this._cardElement = null;
   }
 
   // функция обработки клика по картинке
