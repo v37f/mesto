@@ -122,7 +122,7 @@ const closePopup = (popup) => {
 
 // функция отключения кнопки создания карточки
 const disablePlaceAddFormSubmitButton = () => {
-  placeAddFormSubmitButton.setAttribute('disabled', true);
+  placeAddFormSubmitButton.disabled = true;
   placeAddFormSubmitButton.classList.add('form__button_disabled');
 }
 
