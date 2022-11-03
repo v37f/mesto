@@ -6,6 +6,8 @@
   max-width: 880px;
   width: calc(100% - (200px * 2));
   min-width: 642px;
+  /* чтобы футер не сжимался */
+  flex-shrink: 0;
 }
 
 @media screen and (max-width: 1023px) {
