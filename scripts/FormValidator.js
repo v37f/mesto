@@ -11,8 +11,6 @@ export default class FormValidator {
 
   // функция установки листенеров на инпуты
   _setEventListeners() {
-    // сделаем кнопку неактивной при изначально пустых полях
-    this._toggleButtonState();
     // пройдем по каждому инпуту в массиве
     this._inputList.forEach((input) => {
       // для каждого инпута навесим слушатель
@@ -20,7 +18,7 @@ export default class FormValidator {
         // и проверим на валидность
         this._isValid(input);
         // так же изменим состояние кнопки
-        this._toggleButtonState();
+        this.toggleButtonState();
       });
     });
   }
@@ -59,7 +57,7 @@ export default class FormValidator {
   }
 
   // функция переключения состояний(активна/неактивна) кнопки
-  _toggleButtonState() {
+  toggleButtonState() {
     // Если есть хотя бы один невалидный инпут
     if (this._hasInvalidInput()) {
       // сделаем кнопку неактивной

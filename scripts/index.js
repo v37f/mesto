@@ -120,12 +120,6 @@ const closePopup = (popup) => {
   document.removeEventListener('keydown', closePopupByEsc);
 }
 
-// функция отключения кнопки создания карточки
-const disablePlaceAddFormSubmitButton = () => {
-  placeAddFormSubmitButton.disabled = true;
-  placeAddFormSubmitButton.classList.add('form__button_disabled');
-}
-
 // функция обработчика сабмита формы редактирования профиля
 const handleProfileEditFormSubmit = (evt) => {
   evt.preventDefault();
@@ -151,6 +145,7 @@ const handleProfileEditButton = () => {
   profileNameInput.value = profileName.textContent;
   profileJobInput.value = profileJob.textContent;
   profileEditFormValidator.hideInputsValidationErrors();
+  profileEditFormValidator.toggleButtonState();
   openPopup(profileEditPopup);
 }
 
@@ -158,7 +153,19 @@ const handleProfileEditButton = () => {
 const handlePlaceAddButton = () => {
   placeAddForm.reset();
   placeAddFormValidator.hideInputsValidationErrors();
-  disablePlaceAddFormSubmitButton();
+
+  // В прошлой итерации здесь была функция disablePlaceAddFormSubmitButton,
+  // которая просто отключала кнопку сабмита при открытии формы (инпуты пусты,
+  // но кнопка активна т.к. событие при котором проверяется валидность инпутов
+  // (ввод текста в поле) еще ни разу не происходило)).
+  // В ревью было замечение, что эту функцию надо перенести  в класс FormValidator
+  // и сделать ее публичной. Я подумал, что вместо того чтобы добалять новый
+  // публичный метод в класс, логичнее будет сделать публичным уже существующий
+  // метод toggleButtonState, который проверяет валидность инпутов и в зависмости
+  // от этого переключает состояние кнопки. Результат тот же, и кода меньше.
+  // Так же это позволяет применить метод toggleButtonState при открытии формы редактирования
+  // профиля(handleProfileEditButton), что делает поведение его кнопки сабмит более предсказуемым.
+  placeAddFormValidator.toggleButtonState();
   openPopup(placeAddPopup);
 }
 
