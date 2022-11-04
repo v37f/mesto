@@ -7,7 +7,6 @@ const profileEditButton = document.querySelector('.profile__edit-button');
 const placeAddButton = document.querySelector('.profile__add-button')
 const profileEditForm = document.querySelector('.form_type_edit-profile');
 const placeAddForm = document.querySelector('.form_type_add-place');
-const placeAddFormSubmitButton = placeAddForm.querySelector('.form__button');
 
 // попапы
 const profileEditPopup = document.querySelector('.popup_type_edit-profile');
@@ -96,7 +95,6 @@ const openImagePopup = (card) => {
 // функция открытия попапа
 const openPopup = (popup) => {
   popup.classList.add('popup_opened');
-  popup.addEventListener('click', closePopupByClickingOverlayOrCross);
   document.addEventListener('keydown', closePopupByEsc);
 }
 
@@ -118,8 +116,15 @@ const closePopupByEsc = (evt) => {
 // функция закрытия попапа
 const closePopup = (popup) => {
   popup.classList.remove('popup_opened');
-  popup.removeEventListener('click', closePopupByClickingOverlayOrCross);
   document.removeEventListener('keydown', closePopupByEsc);
+}
+
+// функция навешевания листенеров на попапы
+const setPopupEventListeners = () => {
+  const popupArray = Array.from(document.querySelectorAll('.popup'));
+  popupArray.forEach((popup) => {
+    popup.addEventListener('click', closePopupByClickingOverlayOrCross);
+  });
 }
 
 // функция обработчика сабмита формы редактирования профиля
@@ -170,6 +175,9 @@ const handlePlaceAddButton = () => {
   placeAddFormValidator.toggleButtonState();
   openPopup(placeAddPopup);
 }
+
+// навесим листенеры на попапы
+setPopupEventListeners();
 
 // отрендерим карточи при первоначальной загрузке страницы
 render();
