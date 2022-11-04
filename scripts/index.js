@@ -22,9 +22,7 @@ const popupImageTitle = imagePopup.querySelector('.popup__image-title');
 
 // инпуты
 const profileNameInput = document.querySelector('.form__input_type_profile-name');
-profileNameInput.value = profileName.textContent;
 const profileJobInput = document.querySelector('.form__input_type_profile-job');
-profileJobInput.value = profileJob.textContent;
 const placeTitleInput = document.querySelector('.form__input_type_place-title');
 const placeImageLinkInput = document.querySelector('.form__input_type_place-image-link');
 
