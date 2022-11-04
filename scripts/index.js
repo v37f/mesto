@@ -100,14 +100,14 @@ const openPopup = (popup) => {
 
 // функция закрыти попапа по клику на оверлей или крестик
 const closePopupByClickingOverlayOrCross = (evt) => {
-  if (evt.target == evt.currentTarget || evt.target.classList.contains('popup__close')) {
+  if (evt.target === evt.currentTarget || evt.target.classList.contains('popup__close')) {
     closePopup(evt.currentTarget);
   };
 }
 
 // функция закрытия попапа по нажатию Esc
 const closePopupByEsc = (evt) => {
-  if (evt.key == 'Escape') {
+  if (evt.key === 'Escape') {
     const openedPopup = document.querySelector('.popup_opened');
     closePopup(openedPopup);
   };
