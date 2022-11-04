@@ -71,12 +71,16 @@ const validationSettings = {
 const profileEditFormValidator = new FormValidator(validationSettings, profileEditForm);
 const placeAddFormValidator = new FormValidator(validationSettings, placeAddForm);
 
+// функция создания новой карточки
+const createCard = (cardData, cardTemplate, handleImageClickFunction) => {
+  return new Card(cardData, cardTemplate, handleImageClickFunction).generateCard();
+}
+
 // функция отрисовки карточек мест из массива
 const render = () => {
   initialCards.forEach((cardData) => {
-    const card = new Card(cardData, cardTemplate, openImagePopup);
-    const cardElement = card.generateCard();
-    elementsContainer.append(cardElement);
+    const card = createCard(cardData, cardTemplate, openImagePopup);
+    elementsContainer.append(card);
   });
 }
 
@@ -133,7 +137,7 @@ const handlePlaceAddFormSubmit = (evt) => {
     name: placeTitleInput.value,
     link: placeImageLinkInput.value
   };
-  const newCard = new Card(newCardData, cardTemplate, openImagePopup).generateCard();
+  const newCard = createCard(newCardData, cardTemplate, openImagePopup);
   elementsContainer.prepend(newCard);
   closePopup(placeAddPopup);
 }
