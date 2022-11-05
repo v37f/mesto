@@ -11,14 +11,14 @@ const cardAddForm = document.querySelector('.form_type_add-card');
 
 // попапы
 const profileEditPopup = document.querySelector('.popup_type_edit-profile');
-const placeAddPopup = document.querySelector('.popup_type_add-place');
-const imagePopup = document.querySelector('.popup_type_image');
+const cardAddPopup = document.querySelector('.popup_type_add-card');
+const cardPopup = document.querySelector('.popup_type_card');
 
 // текстовые поля и картинки
 const profileName = document.querySelector('.profile__name');
 const profileJob = document.querySelector('.profile__job');
-const popupImage = imagePopup.querySelector('.popup__image');
-const popupImageTitle = imagePopup.querySelector('.popup__image-title');
+const popupImage = cardPopup.querySelector('.popup__image');
+const popupImageTitle = cardPopup.querySelector('.popup__image-title');
 
 // инпуты
 const profileNameInput = document.querySelector('.form__input_type_profile-name');
@@ -62,7 +62,7 @@ const openImagePopup = (card) => {
   popupImageTitle.textContent = card.title;
   popupImage.src = card.imageLink;
   popupImage.alt = card.title;
-  openPopup(imagePopup);
+  openPopup(cardPopup);
 }
 
 // функция открытия попапа
@@ -117,7 +117,7 @@ const handlePlaceAddFormSubmit = (evt) => {
   };
   const newCard = createCard(newCardData, cardTemplate, openImagePopup);
   elementsContainer.prepend(newCard);
-  closePopup(placeAddPopup);
+  closePopup(cardAddPopup);
 }
 
 // функция обработчика кнопки редактирования профиля
@@ -146,7 +146,7 @@ const handlePlaceAddButton = () => {
   // Так же это позволяет применить метод toggleButtonState при открытии формы редактирования
   // профиля(handleProfileEditButton), что делает поведение его кнопки сабмит более предсказуемым.
   placeAddFormValidator.toggleButtonState();
-  openPopup(placeAddPopup);
+  openPopup(cardAddPopup);
 }
 
 // навесим листенеры на попапы
