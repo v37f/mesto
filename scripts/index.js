@@ -27,8 +27,8 @@ const cardTitleInput = document.querySelector('.form__input_type_card-title');
 const cardImageLinkInput = document.querySelector('.form__input_type_card-image-link');
 
 //контейнеры и темплейты
-const elementsContainer = document.querySelector('.elements__container');
-const cardTemplate = '.element-template';
+const cardsContainer = document.querySelector('.cards__container');
+const cardTemplateSelector = '.element-template';
 
 // настройки валидации
 const validationSettings = {
@@ -44,15 +44,15 @@ const profileEditFormValidator = new FormValidator(validationSettings, profileEd
 const placeAddFormValidator = new FormValidator(validationSettings, cardAddForm);
 
 // функция создания новой карточки
-const createCard = (cardData, cardTemplate, handleImageClickFunction) => {
-  return new Card(cardData, cardTemplate, handleImageClickFunction).generateCard();
+const createCard = (data, templateSelector, handleImageClickFunction) => {
+  return new Card(data, templateSelector, handleImageClickFunction).generateCard();
 }
 
 // функция отрисовки карточек мест из массива
 const render = () => {
   initialCards.forEach((cardData) => {
-    const card = createCard(cardData, cardTemplate, openImagePopup);
-    elementsContainer.append(card);
+    const card = createCard(cardData, cardTemplateSelector, openImagePopup);
+    cardsContainer.append(card);
   });
 }
 
@@ -93,7 +93,7 @@ const closePopup = (popup) => {
 }
 
 // функция навешевания листенеров на попапы
-const setPopupEventListeners = () => {
+const setPopupsEventListeners = () => {
   const popupArray = Array.from(document.querySelectorAll('.popup'));
   popupArray.forEach((popup) => {
     popup.addEventListener('click', closePopupByClickingOverlayOrCross);
@@ -115,8 +115,8 @@ const handlePlaceAddFormSubmit = (evt) => {
     name: cardTitleInput.value,
     link: cardImageLinkInput.value
   };
-  const newCard = createCard(newCardData, cardTemplate, openImagePopup);
-  elementsContainer.prepend(newCard);
+  const newCard = createCard(newCardData, cardTemplateSelector, openImagePopup);
+  cardsContainer.prepend(newCard);
   closePopup(cardAddPopup);
 }
 
@@ -150,7 +150,7 @@ const handlePlaceAddButton = () => {
 }
 
 // навесим листенеры на попапы
-setPopupEventListeners();
+setPopupsEventListeners();
 
 // отрендерим карточи при первоначальной загрузке страницы
 render();
