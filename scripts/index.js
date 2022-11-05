@@ -28,7 +28,7 @@ const cardImageLinkInput = document.querySelector('.form__input_type_card-image-
 
 //контейнеры и темплейты
 const cardsContainer = document.querySelector('.cards__container');
-const cardTemplateSelector = '.element-template';
+const cardTemplateSelector = '.card-template';
 
 // настройки валидации
 const validationSettings = {

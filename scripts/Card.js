@@ -11,7 +11,7 @@ export default class Card {
     const cardTemplate = document
     .querySelector(this._templateSelector)
     .content
-    .querySelector('.element')
+    .querySelector('.card')
     .cloneNode(true);
 
     return cardTemplate;
@@ -23,7 +23,7 @@ export default class Card {
       this._handleLikeButtonClick();
     });
 
-    this._cardElement.querySelector('.element__delete-button').addEventListener('click', () => {
+    this._cardElement.querySelector('.card__delete-button').addEventListener('click', () => {
       this._handleDeleteButtonClick();
     });
 
@@ -35,7 +35,7 @@ export default class Card {
 
   // функция обработки клика по лайку
   _handleLikeButtonClick() {
-    this._likeButton.classList.toggle('element__like-button_active');
+    this._likeButton.classList.toggle('card__like-button_active');
   }
 
   // функция обработки клика по кнопке удаления
@@ -58,12 +58,12 @@ export default class Card {
   // функция генерации карточки
   generateCard() {
     this._cardElement = this._getTemplate();
-    this._likeButton = this._cardElement.querySelector('.element__like-button');
-    this._image = this._cardElement.querySelector('.element__image');
+    this._likeButton = this._cardElement.querySelector('.card__like-button');
+    this._image = this._cardElement.querySelector('.card__image');
 
     this._image.src = this._imageLink;
     this._image.alt = this._title;
-    this._cardElement.querySelector('.element__title').textContent = this._title;
+    this._cardElement.querySelector('.card__title').textContent = this._title;
 
     this._setEventListeners();
 
