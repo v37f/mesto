@@ -1,6 +1,6 @@
 export default class FormValidator {
   constructor(settings, form) {
-    this._form = form;
+    this._formElement = form;
     this._submitButtonSelector = settings.submitButtonSelector;
     this._inactiveButtonClass = settings.inactiveButtonClass;
     this._inputErrorClass = settings.inputErrorClass;
@@ -37,7 +37,7 @@ export default class FormValidator {
   // Функция, которая добавляет класс с ошибкой
   _showInputError(input) {
     // получим переменную элемента ошибки
-    this._errorElement = this._form.querySelector(`.${input.id}-error`);
+    this._errorElement = this._formElement.querySelector(`.${input.id}-error`);
     // добавим инпуту стили невалидности
     input.classList.add(this._inputErrorClass);
     // Показываем сообщение об ошибке
@@ -48,7 +48,7 @@ export default class FormValidator {
   // Функция, которая удаляет класс с ошибкой
   _hideInputError(input) {
     // получаем переменную элемента ошибки
-    this._errorElement = this._form.querySelector(`.${input.id}-error`);
+    this._errorElement = this._formElement.querySelector(`.${input.id}-error`);
     // убераем у инпута стили невалидности
     input.classList.remove(this._inputErrorClass);
     // Скрываем сообщение об ошибке
@@ -73,11 +73,11 @@ export default class FormValidator {
   // функция проверки валидности всех полей формы
   _hasInvalidInput() {
     // проходим по этому массиву методом some
-    return this._inputList.some((_inputElement) => {
+    return this._inputList.some((inputElement) => {
       // Если поле не валидно, колбэк вернёт true
       // Обход массива прекратится и вся функция
       // hasInvalidInput вернёт true
-      return !_inputElement.validity.valid;
+      return !inputElement.validity.valid;
     });
   }
 

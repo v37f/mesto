@@ -1,7 +1,7 @@
 // импорты
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
-import initialCards from './initialCards.js';
+import initialCardsData from './initialCardsData.js';
 
 // кнопки и формы
 const profileEditButton = document.querySelector('.profile__edit-button');
@@ -43,21 +43,21 @@ const validationSettings = {
 const profileEditFormValidator = new FormValidator(validationSettings, profileEditForm);
 const placeAddFormValidator = new FormValidator(validationSettings, cardAddForm);
 
-// функция создания новой карточки
-const createCard = (data, templateSelector, handleImageClickFunction) => {
+// функция создания DOM-элемента карточки
+const createCardElement = (data, templateSelector, handleImageClickFunction) => {
   return new Card(data, templateSelector, handleImageClickFunction).generateCard();
 }
 
-// функция отрисовки карточек мест из массива
-const render = () => {
-  initialCards.forEach((cardData) => {
-    const card = createCard(cardData, cardTemplateSelector, openImagePopup);
-    cardsContainer.append(card);
+// функция отрисовки карточек из массива изначальных карточек
+const renderInitialCards = () => {
+  initialCardsData.forEach((cardData) => {
+    const initialCardElement = createCardElement(cardData, cardTemplateSelector, openCardPopup);
+    cardsContainer.append(initialCardElement);
   });
 }
 
 // функция открытия попапа карточки
-const openImagePopup = (card) => {
+const openCardPopup = (card) => {
   // получаем данные карточки через геттеры
   cardPopupImageTitle.textContent = card.title;
   cardPopupImage.src = card.imageLink;
@@ -94,8 +94,8 @@ const closePopup = (popup) => {
 
 // функция навешевания листенеров на попапы
 const setPopupsEventListeners = () => {
-  const popupArray = Array.from(document.querySelectorAll('.popup'));
-  popupArray.forEach((popup) => {
+  const popupsList = Array.from(document.querySelectorAll('.popup'));
+  popupsList.forEach((popup) => {
     popup.addEventListener('click', closePopupByClickingOverlayOrCross);
   });
 }
@@ -112,16 +112,16 @@ const handleProfileEditFormSubmit = (evt) => {
 const handlePlaceAddFormSubmit = (evt) => {
   evt.preventDefault();
   const newCardData = {
-    name: cardTitleInput.value,
-    link: cardImageLinkInput.value
+    title: cardTitleInput.value,
+    imageLink: cardImageLinkInput.value
   };
-  const newCard = createCard(newCardData, cardTemplateSelector, openImagePopup);
-  cardsContainer.prepend(newCard);
+  const newCardElement = createCardElement(newCardData, cardTemplateSelector, openCardPopup);
+  cardsContainer.prepend(newCardElement);
   closePopup(cardAddPopup);
 }
 
 // функция обработчика кнопки редактирования профиля
-const handleProfileEditButton = () => {
+const handleProfileEditButtonClick = () => {
   profileNameInput.value = profileName.textContent;
   profileJobInput.value = profileJob.textContent;
   profileEditFormValidator.hideInputsValidationErrors();
@@ -130,7 +130,7 @@ const handleProfileEditButton = () => {
 }
 
 // функция обработчика кнопки добавления карточки
-const handlePlaceAddButton = () => {
+const handlePlaceAddButtonClick = () => {
   cardAddForm.reset();
   placeAddFormValidator.hideInputsValidationErrors();
 
@@ -144,7 +144,7 @@ const handlePlaceAddButton = () => {
   // метод toggleButtonState, который проверяет валидность инпутов и в зависмости
   // от этого переключает состояние кнопки. Результат тот же, и кода меньше.
   // Так же это позволяет применить метод toggleButtonState при открытии формы редактирования
-  // профиля(handleProfileEditButton), что делает поведение его кнопки сабмит более предсказуемым.
+  // профиля(handleProfileEditButtonClick), что делает поведение его кнопки сабмит более предсказуемым.
   placeAddFormValidator.toggleButtonState();
   openPopup(cardAddPopup);
 }
@@ -153,7 +153,7 @@ const handlePlaceAddButton = () => {
 setPopupsEventListeners();
 
 // отрендерим карточи при первоначальной загрузке страницы
-render();
+renderInitialCards();
 
 // включим валидацию формы редактирования профиля
 profileEditFormValidator.enableValidation();
@@ -162,9 +162,9 @@ profileEditFormValidator.enableValidation();
 placeAddFormValidator.enableValidation();
 
 // слушатели
-profileEditButton.addEventListener('click', handleProfileEditButton);
+profileEditButton.addEventListener('click', handleProfileEditButtonClick);
 profileEditForm.addEventListener('submit', handleProfileEditFormSubmit);
-cardAddButton.addEventListener('click', handlePlaceAddButton);
+cardAddButton.addEventListener('click', handlePlaceAddButtonClick);
 cardAddForm.addEventListener('submit', handlePlaceAddFormSubmit);
 
 

@@ -1,41 +1,41 @@
 export default class Card {
   constructor(data, templateSelector, handleImageClick) {
-    this._title = data.name;
-    this._imageLink = data.link;
+    this._title = data.title;
+    this._imageLink = data.imageLink;
     this._templateSelector = templateSelector;
     this._handleImageClick = handleImageClick;
   }
 
   // получаем темплейт карточки
   _getTemplate() {
-    const cardTemplate = document
+    const cardTemplateElement = document
     .querySelector(this._templateSelector)
     .content
     .querySelector('.card')
     .cloneNode(true);
 
-    return cardTemplate;
+    return cardTemplateElement;
   }
 
   // функция навешивания листенером элементам карточки
   _setEventListeners() {
-    this._likeButton.addEventListener('click', () => {
+    this._likeButtonElement.addEventListener('click', () => {
       this._handleLikeButtonClick();
     });
 
-    this._cardElement.querySelector('.card__delete-button').addEventListener('click', () => {
+    this._deleteButtonElement.addEventListener('click', () => {
       this._handleDeleteButtonClick();
     });
 
-    this._image.addEventListener('click', () => {
-      // передаем в функцию обработчкиа клика данные в качестве объекта
+    this._imageElement.addEventListener('click', () => {
+      // передаем в функцию обработчкиа клика текущий эксземпляр
       this._handleImageClick(this);
     });
   }
 
   // функция обработки клика по лайку
   _handleLikeButtonClick() {
-    this._likeButton.classList.toggle('card__like-button_active');
+    this._likeButtonElement.classList.toggle('card__like-button_active');
   }
 
   // функция обработки клика по кнопке удаления
@@ -58,12 +58,14 @@ export default class Card {
   // функция генерации карточки
   generateCard() {
     this._cardElement = this._getTemplate();
-    this._likeButton = this._cardElement.querySelector('.card__like-button');
-    this._image = this._cardElement.querySelector('.card__image');
+    this._likeButtonElement = this._cardElement.querySelector('.card__like-button');
+    this._imageElement = this._cardElement.querySelector('.card__image');
+    this._deleteButtonElement = this._cardElement.querySelector('.card__delete-button');
+    this._titleElement = this._cardElement.querySelector('.card__title');
 
-    this._image.src = this._imageLink;
-    this._image.alt = this._title;
-    this._cardElement.querySelector('.card__title').textContent = this._title;
+    this._imageElement.src = this._imageLink;
+    this._imageElement.alt = this._title;
+    this._titleElement.textContent = this._title;
 
     this._setEventListeners();
 
