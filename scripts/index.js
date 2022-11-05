@@ -17,14 +17,14 @@ const cardPopup = document.querySelector('.popup_type_card');
 // текстовые поля и картинки
 const profileName = document.querySelector('.profile__name');
 const profileJob = document.querySelector('.profile__job');
-const popupImage = cardPopup.querySelector('.popup__image');
-const popupImageTitle = cardPopup.querySelector('.popup__image-title');
+const cardPopupImage = cardPopup.querySelector('.popup__image');
+const cardPopupImageTitle = cardPopup.querySelector('.popup__image-title');
 
 // инпуты
 const profileNameInput = document.querySelector('.form__input_type_profile-name');
 const profileJobInput = document.querySelector('.form__input_type_profile-job');
-const placeTitleInput = document.querySelector('.form__input_type_place-title');
-const placeImageLinkInput = document.querySelector('.form__input_type_place-image-link');
+const cardTitleInput = document.querySelector('.form__input_type_card-title');
+const cardImageLinkInput = document.querySelector('.form__input_type_card-image-link');
 
 //контейнеры и темплейты
 const elementsContainer = document.querySelector('.elements__container');
@@ -59,9 +59,9 @@ const render = () => {
 // функция открытия попапа карточки
 const openImagePopup = (card) => {
   // получаем данные карточки через геттеры
-  popupImageTitle.textContent = card.title;
-  popupImage.src = card.imageLink;
-  popupImage.alt = card.title;
+  cardPopupImageTitle.textContent = card.title;
+  cardPopupImage.src = card.imageLink;
+  cardPopupImage.alt = card.title;
   openPopup(cardPopup);
 }
 
@@ -112,8 +112,8 @@ const handleProfileEditFormSubmit = (evt) => {
 const handlePlaceAddFormSubmit = (evt) => {
   evt.preventDefault();
   const newCardData = {
-    name: placeTitleInput.value,
-    link: placeImageLinkInput.value
+    name: cardTitleInput.value,
+    link: cardImageLinkInput.value
   };
   const newCard = createCard(newCardData, cardTemplate, openImagePopup);
   elementsContainer.prepend(newCard);
