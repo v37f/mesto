@@ -5,9 +5,9 @@ import initialCards from './initialCards.js';
 
 // кнопки и формы
 const profileEditButton = document.querySelector('.profile__edit-button');
-const placeAddButton = document.querySelector('.profile__add-button')
+const cardAddButton = document.querySelector('.profile__card-add-button')
 const profileEditForm = document.querySelector('.form_type_edit-profile');
-const placeAddForm = document.querySelector('.form_type_add-place');
+const cardAddForm = document.querySelector('.form_type_add-card');
 
 // попапы
 const profileEditPopup = document.querySelector('.popup_type_edit-profile');
@@ -41,7 +41,7 @@ const validationSettings = {
 
 // Валидаторы форм
 const profileEditFormValidator = new FormValidator(validationSettings, profileEditForm);
-const placeAddFormValidator = new FormValidator(validationSettings, placeAddForm);
+const placeAddFormValidator = new FormValidator(validationSettings, cardAddForm);
 
 // функция создания новой карточки
 const createCard = (cardData, cardTemplate, handleImageClickFunction) => {
@@ -131,7 +131,7 @@ const handleProfileEditButton = () => {
 
 // функция обработчика кнопки добавления карточки
 const handlePlaceAddButton = () => {
-  placeAddForm.reset();
+  cardAddForm.reset();
   placeAddFormValidator.hideInputsValidationErrors();
 
   // В прошлой итерации здесь была функция disablePlaceAddFormSubmitButton,
@@ -164,7 +164,7 @@ placeAddFormValidator.enableValidation();
 // слушатели
 profileEditButton.addEventListener('click', handleProfileEditButton);
 profileEditForm.addEventListener('submit', handleProfileEditFormSubmit);
-placeAddButton.addEventListener('click', handlePlaceAddButton);
-placeAddForm.addEventListener('submit', handlePlaceAddFormSubmit);
+cardAddButton.addEventListener('click', handlePlaceAddButton);
+cardAddForm.addEventListener('submit', handlePlaceAddFormSubmit);
 
 
