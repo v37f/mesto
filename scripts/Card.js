@@ -13,6 +13,8 @@ export default class Card {
     this._imageLink = data.imageLink;
     this._templateSelector = templateSelector;
     this._handleImageClick = handleImageClick;
+    this.getTitle = function() { return this._title; }
+    this.getImageLink = function() { return this._imageLink; }
   }
 
   /**
@@ -60,17 +62,6 @@ export default class Card {
   _handleDeleteButtonClick() {
     this._cardElement.remove();
     this._cardElement = null;
-  }
-
-
-  // геттер для названия карточки
-  get title() {
-    return this._title;
-  }
-
-  // геттер для картинки
-  get imageLink() {
-    return this._imageLink;
   }
 
   /**
