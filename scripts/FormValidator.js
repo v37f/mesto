@@ -1,4 +1,12 @@
+/**
+ * Класс для создания объектов валидаторов форм
+ */
 export default class FormValidator {
+  /**
+   * @constructor
+   * @param {object} settings Объект натсроек, содержащих классы и селекторы элементов
+   * @param {Element} form DOM-элемент формы
+   */
   constructor(settings, form) {
     this._formElement = form;
     this._submitButtonSelector = settings.submitButtonSelector;
@@ -9,7 +17,9 @@ export default class FormValidator {
     this._buttonElement = form.querySelector(this._submitButtonSelector);
   }
 
-  // функция установки листенеров на инпуты
+  /**
+   * Устанавливает слушатели на все инпуты формы
+   */
   _setEventListeners() {
     // пройдем по каждому инпуту в массиве
     this._inputList.forEach((inputElement) => {
@@ -23,7 +33,10 @@ export default class FormValidator {
     });
   }
 
-  // Функция проверки валидность поля
+  /**
+   * Проверяет валидность инпута
+   * @param {Element} inputElement DOM-элемент инпута
+   */
   _isValid(inputElement) {
     if (!inputElement.validity.valid) {
       // Если поле не проходит валидацию, покажем ошибку
@@ -34,7 +47,10 @@ export default class FormValidator {
     }
   }
 
-  // Функция, которая добавляет класс с ошибкой
+  /**
+   * Показывает ошибки валидации инпута
+   * @param {Element} inputElement DOM-элемент инпута
+   */
   _showInputError(inputElement) {
     // получим переменную элемента ошибки
     this._errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
@@ -45,7 +61,10 @@ export default class FormValidator {
     this._errorElement.classList.add(this._errorClass);
   }
 
-  // Функция, которая удаляет класс с ошибкой
+  /**
+   * Скрывает ошибки валидации инпута
+   * @param {Element} inputElement DOM-элемент инпута
+   */
   _hideInputError(inputElement) {
     // получаем переменную элемента ошибки
     this._errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
@@ -56,7 +75,9 @@ export default class FormValidator {
     this._errorElement.textContent = '';
   }
 
-  // функция переключения состояний(активна/неактивна) кнопки
+  /**
+   * Переключает состояние кнопки формы(активна/неактивна)
+   */
   toggleButtonState() {
     // Если есть хотя бы один невалидный инпут
     if (this._hasInvalidInput()) {
@@ -70,7 +91,10 @@ export default class FormValidator {
     }
   }
 
-  // функция проверки валидности всех полей формы
+  /**
+   * Проверяет форму на наличие невалидных инпутов
+   * @returns {boolean} Возвращает true если в форме имеется хотя бы один невалидный инпут, в ином случае возращает false
+   */
   _hasInvalidInput() {
     // проходим по этому массиву методом some
     return this._inputList.some((inputElement) => {
@@ -81,13 +105,18 @@ export default class FormValidator {
     });
   }
 
-  // функция скрытия ошибок валидации
+  /**
+   * Скрывает ошибки валидации у всех инпутов формы
+   */
   hideInputsValidationErrors = () => {
     this._inputList.forEach((inputElement) => {
       this._hideInputError(inputElement);
     });
   }
-  // функция включения валидации
+
+  /**
+   * Включает валидацию
+   */
   enableValidation() {
     this._setEventListeners();
   }

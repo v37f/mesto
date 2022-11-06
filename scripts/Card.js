@@ -1,4 +1,13 @@
+/**
+ * Класс для создания объектов карточек
+ */
 export default class Card {
+  /**
+   * @constructor
+   * @param {object} data Данные карточки
+   * @param {string} templateSelector Селектор шаблона разметки карточки
+   * @param {Function} handleImageClick Обработчик клика по картинке
+   */
   constructor(data, templateSelector, handleImageClick) {
     this._title = data.title;
     this._imageLink = data.imageLink;
@@ -6,7 +15,10 @@ export default class Card {
     this._handleImageClick = handleImageClick;
   }
 
-  // получаем темплейт карточки
+  /**
+   * Функция получения шаблона разметки карточки
+   * @returns {Element} DOM-элемент шаблона разметки карточки
+   */
   _getTemplate() {
     const cardTemplateElement = document
     .querySelector(this._templateSelector)
@@ -17,7 +29,9 @@ export default class Card {
     return cardTemplateElement;
   }
 
-  // функция навешивания листенером элементам карточки
+  /**
+   * Устанавливает слушатели на элементы карточки
+   */
   _setEventListeners() {
     this._likeButtonElement.addEventListener('click', () => {
       this._handleLikeButtonClick();
@@ -28,17 +42,21 @@ export default class Card {
     });
 
     this._imageElement.addEventListener('click', () => {
-      // передаем в функцию обработчкиа клика текущий эксземпляр
+      // передаем в функцию обработчкиа клика текущий экземпляр
       this._handleImageClick(this);
     });
   }
 
-  // функция обработки клика по лайку
+  /**
+   * Изменяет состояние кнопки 'Like'(нажата/не нажата)
+   */
   _handleLikeButtonClick() {
     this._likeButtonElement.classList.toggle('card__like-button_active');
   }
 
-  // функция обработки клика по кнопке удаления
+  /**
+   * Удаляет DOM-элемент карточки из разметки
+   */
   _handleDeleteButtonClick() {
     this._cardElement.remove();
     this._cardElement = null;
@@ -55,7 +73,10 @@ export default class Card {
     return this._imageLink;
   }
 
-  // функция генерации карточки
+  /**
+   * Создает DOM-элемент карточки из экземпляра класса Card
+   * @returns {Element} DOM-элемент карточки
+   */
   generateCard() {
     this._cardElement = this._getTemplate();
     this._likeButtonElement = this._cardElement.querySelector('.card__like-button');

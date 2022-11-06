@@ -43,12 +43,21 @@ const validationSettings = {
 const profileEditFormValidator = new FormValidator(validationSettings, profileEditForm);
 const placeAddFormValidator = new FormValidator(validationSettings, cardAddForm);
 
-// функция создания DOM-элемента карточки
-const createCardElement = (data, templateSelector, handleImageClickFunction) => {
-  return new Card(data, templateSelector, handleImageClickFunction).generateCard();
+/**
+ * Создает DOM-элемент новой карточки
+ * @param {object} data объект с данными карточки
+ * @param {string} templateSelector селектор шаблона разметки карточки
+ * @param {Function} handleImageClick функция обработчика клика по картинке в карточке
+ * @returns {Element} DOM-элемент карточки с переданными параметрами
+ */
+const createCardElement = (data, templateSelector, handleImageClick) => {
+  const cardElement = new Card(data, templateSelector, handleImageClick).generateCard();
+  return cardElement;
 }
 
-// функция отрисовки карточек из массива изначальных карточек
+/**
+ * Отрисовывает изначальные карточки, хранящиеся в массиве, при загрузке страницы
+ */
 const renderInitialCards = () => {
   initialCardsData.forEach((cardData) => {
     const initialCardElement = createCardElement(cardData, cardTemplateSelector, openCardPopup);
@@ -56,7 +65,10 @@ const renderInitialCards = () => {
   });
 }
 
-// функция открытия попапа карточки
+/**
+ * Открывает всплывающее окно карточки
+ * @param {object} card Экземпляр класса Card, для которого нужно открыть всплывающее окно
+ */
 const openCardPopup = (card) => {
   // получаем данные карточки через геттеры
   cardPopupImageTitle.textContent = card.title;
@@ -65,20 +77,29 @@ const openCardPopup = (card) => {
   openPopup(cardPopup);
 }
 
-// функция открытия попапа
+/**
+ * Открывает всплывающее окно
+ * @param {Element} popup DOM-элемент всплывающего окна, который нужно открыть
+ */
 const openPopup = (popup) => {
   popup.classList.add('popup_opened');
   document.addEventListener('keydown', closePopupByEsc);
 }
 
-// функция закрыти попапа по клику на оверлей или крестик
+/**
+ * Закрывает всплывающее окно при клике на оверлей или на крестик
+ * @param {object} evt В качестве параметра передается объект события Event
+ */
 const closePopupByClickingOverlayOrCross = (evt) => {
   if (evt.target === evt.currentTarget || evt.target.classList.contains('popup__close')) {
     closePopup(evt.currentTarget);
   };
 }
 
-// функция закрытия попапа по нажатию Esc
+/**
+ * Закрывает всплывающее окно при нажатии на кливишу Escape
+ * @param {object} evt В качестве параметра передается объект события Event
+ */
 const closePopupByEsc = (evt) => {
   if (evt.key === 'Escape') {
     const openedPopup = document.querySelector('.popup_opened');
@@ -86,13 +107,18 @@ const closePopupByEsc = (evt) => {
   };
 }
 
-// функция закрытия попапа
+/**
+ * Закрывает всплывающее окно
+ * @param {Element} popup DOM-элемент всплывающего окна, который нужно закрыть
+ */
 const closePopup = (popup) => {
   popup.classList.remove('popup_opened');
   document.removeEventListener('keydown', closePopupByEsc);
 }
 
-// функция навешевания листенеров на попапы
+/**
+ * Устанавливает слушатели на все всплывающие окна
+ */
 const setPopupsEventListeners = () => {
   const popupsList = Array.from(document.querySelectorAll('.popup'));
   popupsList.forEach((popup) => {
@@ -100,7 +126,10 @@ const setPopupsEventListeners = () => {
   });
 }
 
-// функция обработчика сабмита формы редактирования профиля
+/**
+ * Изменяет данные профиля на данные введеные пользователем
+ * @param {object} evt В качестве параметра передается объект события Event
+ */
 const handleProfileEditFormSubmit = (evt) => {
   evt.preventDefault();
   profileName.textContent = profileNameInput.value;
@@ -108,7 +137,10 @@ const handleProfileEditFormSubmit = (evt) => {
   closePopup(profileEditPopup);
 }
 
-// функция обработчика сабмита формы добавления карточки
+/**
+ * Cоздает новую карточку на основе введенных пользователем данных и доабвляет ее на страницу
+ * @param {object} evt В качестве параметра передается объект события Event
+ */
 const handlePlaceAddFormSubmit = (evt) => {
   evt.preventDefault();
   const newCardData = {
@@ -120,7 +152,9 @@ const handlePlaceAddFormSubmit = (evt) => {
   closePopup(cardAddPopup);
 }
 
-// функция обработчика кнопки редактирования профиля
+/**
+ * Открывает всплывающее окно редактирования профиля
+ */
 const handleProfileEditButtonClick = () => {
   profileNameInput.value = profileName.textContent;
   profileJobInput.value = profileJob.textContent;
@@ -129,7 +163,9 @@ const handleProfileEditButtonClick = () => {
   openPopup(profileEditPopup);
 }
 
-// функция обработчика кнопки добавления карточки
+/**
+ * Открывает всплывающее окно добавления карточки
+ */
 const handlePlaceAddButtonClick = () => {
   cardAddForm.reset();
   placeAddFormValidator.hideInputsValidationErrors();
@@ -149,19 +185,19 @@ const handlePlaceAddButtonClick = () => {
   openPopup(cardAddPopup);
 }
 
-// навесим листенеры на попапы
+// Установим листенеры на попапы
 setPopupsEventListeners();
 
-// отрендерим карточи при первоначальной загрузке страницы
+// Отрендерим карточки при первоначальной загрузке страницы
 renderInitialCards();
 
-// включим валидацию формы редактирования профиля
+// Включим валидацию формы редактирования профиля
 profileEditFormValidator.enableValidation();
 
-// включим валидацию формы добаления ккарточки
+// Включим валидацию формы добаления ккарточки
 placeAddFormValidator.enableValidation();
 
-// слушатели
+// Слушатели
 profileEditButton.addEventListener('click', handleProfileEditButtonClick);
 profileEditForm.addEventListener('submit', handleProfileEditFormSubmit);
 cardAddButton.addEventListener('click', handlePlaceAddButtonClick);
