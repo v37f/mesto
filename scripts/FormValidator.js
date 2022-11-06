@@ -14,7 +14,7 @@ export default class FormValidator {
     this._inputErrorClass = settings.inputErrorClass;
     this._errorClass = settings.errorClass;
     this._inputList = Array.from(form.querySelectorAll(settings.inputSelector));
-    this._buttonElement = form.querySelector(this._submitButtonSelector);
+    this._submitButtonElement = form.querySelector(this._submitButtonSelector);
   }
 
   /**
@@ -28,7 +28,7 @@ export default class FormValidator {
         // и проверим на валидность
         this._isValid(inputElement);
         // так же изменим состояние кнопки
-        this.toggleButtonState();
+        this.toggleSubmitButtonState();
       });
     });
   }
@@ -78,16 +78,16 @@ export default class FormValidator {
   /**
    * Переключает состояние кнопки формы(активна/неактивна)
    */
-  toggleButtonState() {
+  toggleSubmitButtonState() {
     // Если есть хотя бы один невалидный инпут
     if (this._hasInvalidInput()) {
       // сделаем кнопку неактивной
-      this._buttonElement.classList.add(this._inactiveButtonClass);
-      this._buttonElement.disabled = true;
+      this._submitButtonElement.classList.add(this._inactiveButtonClass);
+      this._submitButtonElement.disabled = true;
     } else {
       // иначе сделаем кнопку активной
-      this._buttonElement.classList.remove(this._inactiveButtonClass);
-      this._buttonElement.disabled = false;
+      this._submitButtonElement.classList.remove(this._inactiveButtonClass);
+      this._submitButtonElement.disabled = false;
     }
   }
 

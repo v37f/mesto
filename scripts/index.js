@@ -33,7 +33,7 @@ const cardTemplateSelector = '.card-template';
 // настройки валидации
 const validationSettings = {
   inputSelector: '.form__input',
-  submitButtonSelector: '.form__button',
+  submitButtonSelector: '.form__button_type_submit',
   inactiveButtonClass: 'form__button_disabled',
   inputErrorClass: 'form__input_not-valid',
   errorClass: 'form__input-error_visible'
@@ -159,7 +159,7 @@ const handleProfileEditButtonClick = () => {
   profileNameInput.value = profileName.textContent;
   profileJobInput.value = profileJob.textContent;
   profileEditFormValidator.hideInputsValidationErrors();
-  profileEditFormValidator.toggleButtonState();
+  profileEditFormValidator.toggleSubmitButtonState();
   openPopup(profileEditPopup);
 }
 
@@ -177,11 +177,11 @@ const handlePlaceAddButtonClick = () => {
   // В ревью было замечение, что эту функцию надо перенести  в класс FormValidator
   // и сделать ее публичной. Я подумал, что вместо того чтобы добалять новый
   // публичный метод в класс, логичнее будет сделать публичным уже существующий
-  // метод toggleButtonState, который проверяет валидность инпутов и в зависмости
+  // метод toggleSubmitButtonState, который проверяет валидность инпутов и в зависмости
   // от этого переключает состояние кнопки. Результат тот же, и кода меньше.
-  // Так же это позволяет применить метод toggleButtonState при открытии формы редактирования
+  // Так же это позволяет применить метод toggleSubmitButtonState при открытии формы редактирования
   // профиля(handleProfileEditButtonClick), что делает поведение его кнопки сабмит более предсказуемым.
-  placeAddFormValidator.toggleButtonState();
+  placeAddFormValidator.toggleSubmitButtonState();
   openPopup(cardAddPopup);
 }
 
