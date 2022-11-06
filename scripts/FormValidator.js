@@ -12,11 +12,11 @@ export default class FormValidator {
   // функция установки листенеров на инпуты
   _setEventListeners() {
     // пройдем по каждому инпуту в массиве
-    this._inputList.forEach((input) => {
+    this._inputList.forEach((inputElement) => {
       // для каждого инпута навесим слушатель
-      input.addEventListener('input', () => {
+      inputElement.addEventListener('input', () => {
         // и проверим на валидность
-        this._isValid(input);
+        this._isValid(inputElement);
         // так же изменим состояние кнопки
         this.toggleButtonState();
       });
@@ -24,33 +24,33 @@ export default class FormValidator {
   }
 
   // Функция проверки валидность поля
-  _isValid(input) {
-    if (!input.validity.valid) {
+  _isValid(inputElement) {
+    if (!inputElement.validity.valid) {
       // Если поле не проходит валидацию, покажем ошибку
-      this._showInputError(input);
+      this._showInputError(inputElement);
     } else {
       // Если проходит, скроем
-      this._hideInputError(input);
+      this._hideInputError(inputElement);
     }
   }
 
   // Функция, которая добавляет класс с ошибкой
-  _showInputError(input) {
+  _showInputError(inputElement) {
     // получим переменную элемента ошибки
-    this._errorElement = this._formElement.querySelector(`.${input.id}-error`);
+    this._errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
     // добавим инпуту стили невалидности
-    input.classList.add(this._inputErrorClass);
+    inputElement.classList.add(this._inputErrorClass);
     // Показываем сообщение об ошибке
-    this._errorElement.textContent = input.validationMessage;
+    this._errorElement.textContent = inputElement.validationMessage;
     this._errorElement.classList.add(this._errorClass);
   }
 
   // Функция, которая удаляет класс с ошибкой
-  _hideInputError(input) {
+  _hideInputError(inputElement) {
     // получаем переменную элемента ошибки
-    this._errorElement = this._formElement.querySelector(`.${input.id}-error`);
+    this._errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
     // убераем у инпута стили невалидности
-    input.classList.remove(this._inputErrorClass);
+    inputElement.classList.remove(this._inputErrorClass);
     // Скрываем сообщение об ошибке
     this._errorElement.classList.remove(this._errorClass);
     this._errorElement.textContent = '';
@@ -83,8 +83,8 @@ export default class FormValidator {
 
   // функция скрытия ошибок валидации
   hideInputsValidationErrors = () => {
-    this._inputList.forEach((input) => {
-      this._hideInputError(input);
+    this._inputList.forEach((inputElement) => {
+      this._hideInputError(inputElement);
     });
   }
   // функция включения валидации
