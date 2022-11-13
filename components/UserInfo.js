@@ -15,23 +15,23 @@ export default class UserInfo {
 
   /**
    * Возращает объект с данными пользователя
-   * @returns {Object} Объект с полями: name(string) - имя пользователя, job(string) - информация о себе
+   * @returns {Object} Объект с полями: userName(string) - имя пользователя, userJob(string) - информация о себе
    */
   getUserInfo() {
     return {
-      name: this._nameElement.textContent,
-      job: this._jobElement.textContent
+      userName: this._nameElement.textContent,
+      userJob: this._jobElement.textContent
     }
   }
 
   /**
    * Устанавливает новые данные о пользователе
    * @param {object} Объект с новыми данными пользователя
-   * @param {string} name Имя пользователя
-   * @param {string} job Информация о себе
+   * @param {string} userName Имя пользователя
+   * @param {string} userJob Информация о себе
    */
-  setUserInfo({ name, job }) {
-    this._nameElement.textContent = name;
-    this._jobElement.textContent = job;
+  setUserInfo({ userName, userJob }) {
+    this._nameElement.textContent = userName;
+    this._jobElement.textContent = userJob;
   }
 }

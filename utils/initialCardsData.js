@@ -1,26 +1,26 @@
 export default [
   {
-    title: 'Архыз',
+    cardTitle: 'Архыз',
     imageLink: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
   },
   {
-    title: 'Челябинская область',
+    cardTitle: 'Челябинская область',
     imageLink: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
   },
   {
-    title: 'Иваново',
+    cardTitle: 'Иваново',
     imageLink: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
   },
   {
-    title: 'Камчатка',
+    cardTitle: 'Камчатка',
     imageLink: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
   },
   {
-    title: 'Холмогорский район',
+    cardTitle: 'Холмогорский район',
     imageLink: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
   },
   {
-    title: 'Байкал',
+    cardTitle: 'Байкал',
     imageLink: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];

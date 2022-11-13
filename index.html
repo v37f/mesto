@@ -56,9 +56,9 @@
         <h2 class="popup__title">Редактировать профиль</h2>
         <form action="#" class="form form_type_edit-profile" name="form" novalidate>
           <fieldset class="form__info">
-            <input type="text" id="profile-name" name="profile-name" class="form__input form__input_type_profile-name" placeholder="Имя" minlength="2" maxlength="40" required>
+            <input type="text" id="profile-name" name="userName" class="form__input form__input_type_profile-name" placeholder="Имя" minlength="2" maxlength="40" required>
             <span class="profile-name-error form__input-error"></span>
-            <input type="text" id="profile-job" name="profile-job" class="form__input form__input_type_profile-job" placeholder="О себе" minlength="2" maxlength="200" required>
+            <input type="text" id="profile-job" name="userJob" class="form__input form__input_type_profile-job" placeholder="О себе" minlength="2" maxlength="200" required>
             <span class="profile-job-error form__input-error"></span>
             <button type="submit" class="form__button form__button_type_submit">Сохранить</button>
           </fieldset>
@@ -74,9 +74,9 @@
         <h2 class="popup__title">Новое место</h2>
         <form action="#" class="form form_type_add-card" name="form" novalidate>
           <fieldset class="form__info">
-            <input type="text" id="card-title" name="card-title" class="form__input form__input_type_card-title" placeholder="Название" minlength="2" maxlength="30" required>
+            <input type="text" id="card-title" name="cardTitle" class="form__input form__input_type_card-title" placeholder="Название" minlength="2" maxlength="30" required>
             <span class="card-title-error form__input-error"></span>
-            <input type="url" id="card-image-link" name="card-image-link" class="form__input form__input_type_card-image-link" placeholder="Ссылка на картинку" required>
+            <input type="url" id="card-image-link" name="imageLink" class="form__input form__input_type_card-image-link" placeholder="Ссылка на картинку" required>
             <span class="card-image-link-error form__input-error"></span>
             <button type="submit" class="form__button form__button_type_submit">Создать</button>
           </fieldset>
