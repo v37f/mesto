@@ -17,8 +17,8 @@ const cardPopup = document.querySelector('.popup_type_card');
 // текстовые поля и картинки
 const profileName = document.querySelector('.profile__name');
 const profileJob = document.querySelector('.profile__job');
-const cardPopupImage = cardPopup.querySelector('.popup__image');
-const cardPopupImageTitle = cardPopup.querySelector('.popup__image-title');
+
+
 
 // инпуты
 const profileNameInput = document.querySelector('.form__input_type_profile-name');
