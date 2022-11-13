@@ -55,15 +55,12 @@ const currentUser = new UserInfo({ nameSelector: profileNameSelector, jobSelecto
 
 //попап с картинкой
 const cardPopup = new PopupWithImage(cardPopupSelector);
-cardPopup.setEventListeners();
 
 //попап редактирования профиля
 const profileEditPopup = new PopupWithForm(profileEditPopupSelector, handleProfileEditFormSubmit);
-profileEditPopup.setEventListeners();
 
 //попап добавления карточки
 const cardAddPopup = new PopupWithForm(cardAddPopupSelector, handlePlaceAddFormSubmit);
-cardAddPopup.setEventListeners();
 
 /**
  * Создает DOM-элемент новой карточки
@@ -129,5 +126,6 @@ placeAddFormValidator.enableValidation();
 // Слушатели
 profileEditButton.addEventListener('click', handleProfileEditButtonClick);
 cardAddButton.addEventListener('click', handleCardAddButtonClick);
-
-
+cardPopup.setEventListeners();
+profileEditPopup.setEventListeners();
+cardAddPopup.setEventListeners();
