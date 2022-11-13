@@ -13,8 +13,6 @@ export default class Card {
     this._imageLink = data.imageLink;
     this._templateSelector = templateSelector;
     this._handleImageClick = handleImageClick;
-    this.getTitle = function() { return this._title; }
-    this.getImageLink = function() { return this._imageLink; }
   }
 
   /**
@@ -45,7 +43,7 @@ export default class Card {
 
     this._imageElement.addEventListener('click', () => {
       // передаем в функцию обработчкиа клика текущий экземпляр
-      this._handleImageClick(this);
+      this._handleImageClick(this._title, this._imageLink);
     });
   }
 

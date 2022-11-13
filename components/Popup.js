@@ -16,7 +16,7 @@ export default class Popup {
    */
   _handleEscClose(evt) {
     if (evt.key === 'Escape') {
-      this._popup.close();
+      this.close();
     };
   }
 
@@ -26,7 +26,7 @@ export default class Popup {
    */
   _handleOverlayOrCrossClick(evt) {
     if (evt.target === evt.currentTarget || evt.target.classList.contains('popup__close')) {
-      this._popup.close();
+      this.close();
     };
   }
 
@@ -35,7 +35,7 @@ export default class Popup {
    */
   open() {
     this._popup.classList.add('popup_opened');
-    document.addEventListener('keydown', this._handleEscClose);
+    document.addEventListener('keydown', this._handleEscClose.bind(this));
   }
 
   /**
@@ -43,13 +43,13 @@ export default class Popup {
    */
  close() {
     this._popup.classList.remove('popup_opened');
-    document.removeEventListener('keydown', this._handleEscClose);
+    document.removeEventListener('keydown', this._handleEscClose.bind(this));
   }
 
   /**
    * Устанавливает слушатель, для закрытия попапа по нажатию на оверлей или крестик
    */
   setEventListeners() {
-    this._popup.addEventListener('click', this._handleOverlayOrCrossClick);
+    this._popup.addEventListener('click', this._handleOverlayOrCrossClick.bind(this));
   }
 }

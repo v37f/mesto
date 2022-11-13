@@ -1,7 +1,7 @@
 /**
  * Класс описывающий поведение попапа с картинкой
  */
-import Popup from "./Popup";
+import Popup from "./Popup.js";
 
 export default class PopupWithImage extends Popup {
   /**

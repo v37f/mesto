@@ -2,7 +2,9 @@
 import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
 import Section from '../components/Section.js';
+import UserInfo from '../components/UserInfo.js';
 import initialCardsData from '../utils/initialCardsData.js';
+import PopupWithImage from '../components/PopupWithImage.js';
 
 // кнопки и формы
 const profileEditButton = document.querySelector('.profile__edit-button');
@@ -13,21 +15,20 @@ const cardAddForm = document.querySelector('.form_type_add-card');
 // попапы
 const profileEditPopup = document.querySelector('.popup_type_edit-profile');
 const cardAddPopup = document.querySelector('.popup_type_add-card');
-const cardPopup = document.querySelector('.popup_type_card');
 
-// текстовые поля и картинки
-const profileName = document.querySelector('.profile__name');
-const profileJob = document.querySelector('.profile__job');
+
+// селекторы
+const profileNameSelector = '.profile__name';
+const profileJobSelector = '.profile__job';
+const cardPopupSelector = '.popup_type_card';
+const cardsContainerSelector = '.cards__container';
+const cardTemplateSelector = '.card-template';
 
 // инпуты
 const profileNameInput = document.querySelector('.form__input_type_profile-name');
 const profileJobInput = document.querySelector('.form__input_type_profile-job');
 const cardTitleInput = document.querySelector('.form__input_type_card-title');
 const cardImageLinkInput = document.querySelector('.form__input_type_card-image-link');
-
-//контейнеры и темплейты
-const cardsContainerSelector = '.cards__container';
-const cardTemplateSelector = '.card-template';
 
 // настройки валидации
 const validationSettings = {
@@ -46,12 +47,19 @@ const placeAddFormValidator = new FormValidator(validationSettings, cardAddForm)
 const cardsSection = new Section({
   items: initialCardsData,
   renderer: (cardData) => {
-    const cardElement = createCardElement(cardData, cardTemplateSelector, openCardPopup);
+    const cardElement = createCardElement(cardData, cardTemplateSelector, cardPopup.open.bind(cardPopup));
     cardsSection.addItemToEnd(cardElement);
     }
   },
   cardsContainerSelector
 );
+
+//пользователь
+const currentUser = new UserInfo({ nameSelector: profileNameSelector, jobSelector: profileJobSelector});
+
+//попап с картинкой
+const cardPopup = new PopupWithImage(cardPopupSelector);
+cardPopup.setEventListeners();
 
 /**
  * Создает DOM-элемент новой карточки
@@ -65,17 +73,6 @@ function createCardElement(data, templateSelector, handleImageClick) {
   return cardElement;
 }
 
-/**
- * Открывает всплывающее окно карточки
- * @param {object} card Экземпляр класса Card, для которого нужно открыть всплывающее окно
- */
-const openCardPopup = (card) => {
-  // получаем данные карточки через геттеры
-  cardPopupImageTitle.textContent = card.getTitle();
-  cardPopupImage.src = card.getImageLink();
-  cardPopupImage.alt = card.getTitle();
-  openPopup(cardPopup);
-}
 
 /**
  * Открывает всплывающее окно
@@ -147,7 +144,7 @@ const handlePlaceAddFormSubmit = (evt) => {
     title: cardTitleInput.value,
     imageLink: cardImageLinkInput.value
   };
-  const newCardElement = createCardElement(newCardData, cardTemplateSelector, openCardPopup);
+  const newCardElement = createCardElement(newCardData, cardTemplateSelector, cardPopup.open.bind(cardPopup));
   cardsSection.addItemToBegin(newCardElement);
   closePopup(cardAddPopup);
 }
