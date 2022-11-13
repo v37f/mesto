@@ -17,10 +17,10 @@ const cardAddForm = document.querySelector('.form_type_add-card');
 const profileNameSelector = '.profile__name';
 const profileJobSelector = '.profile__job';
 const cardPopupSelector = '.popup_type_card';
-const cardsContainerSelector = '.cards__container';
-const cardTemplateSelector = '.card-template';
 const profileEditPopupSelector = '.popup_type_edit-profile';
 const cardAddPopupSelector = '.popup_type_add-card';
+const cardsContainerSelector = '.cards__container';
+const cardTemplateSelector = '.card-template';
 
 // инпуты
 const profileNameInput = document.querySelector('.form__input_type_profile-name');
@@ -39,7 +39,7 @@ const validationSettings = {
 const profileEditFormValidator = new FormValidator(validationSettings, profileEditForm);
 const placeAddFormValidator = new FormValidator(validationSettings, cardAddForm);
 
-// Отрисовыватель секции карточек
+// Секция карточек
 const cardsSection = new Section({
   items: initialCardsData,
   renderer: (cardData) => {
@@ -69,7 +69,7 @@ cardAddPopup.setEventListeners();
  * Создает DOM-элемент новой карточки
  * @param {object} data объект с данными карточки
  * @param {string} templateSelector селектор шаблона разметки карточки
- * @param {Function} handleCardClick функция обработчика клика по картинке в карточке
+ * @param {Function} handleCardClick функция обработчика клика по карточке
  * @returns {Element} DOM-элемент карточки с переданными параметрами
  */
 function createCardElement(data, templateSelector, handleCardClick) {
@@ -111,12 +111,11 @@ const handleProfileEditButtonClick = () => {
 /**
  * Открывает всплывающее окно добавления карточки
  */
-const handlePlaceAddButtonClick = () => {
+const handleCardAddButtonClick = () => {
   placeAddFormValidator.hideInputsValidationErrors();
   placeAddFormValidator.toggleSubmitButtonState();
   cardAddPopup.open();
 }
-
 
 // Отрендерим карточки при первоначальной загрузке страницы
 cardsSection.renderItems();
@@ -129,6 +128,6 @@ placeAddFormValidator.enableValidation();
 
 // Слушатели
 profileEditButton.addEventListener('click', handleProfileEditButtonClick);
-cardAddButton.addEventListener('click', handlePlaceAddButtonClick);
+cardAddButton.addEventListener('click', handleCardAddButtonClick);
 
 

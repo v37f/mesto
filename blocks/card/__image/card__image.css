@@ -6,9 +6,5 @@
   object-position: center top;
   border-radius: 10px 10px 0 0;
   cursor: pointer;
-  transition: opacity .4s ease;
 }
 
-.card__image:hover {
-  opacity: .7;
-}
