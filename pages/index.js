@@ -1,6 +1,7 @@
 // импорты
 import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
+import Section from '../components/Section.js';
 import initialCardsData from '../utils/initialCardsData.js';
 
 // кнопки и формы
@@ -18,8 +19,6 @@ const cardPopup = document.querySelector('.popup_type_card');
 const profileName = document.querySelector('.profile__name');
 const profileJob = document.querySelector('.profile__job');
 
-
-
 // инпуты
 const profileNameInput = document.querySelector('.form__input_type_profile-name');
 const profileJobInput = document.querySelector('.form__input_type_profile-job');
@@ -27,7 +26,7 @@ const cardTitleInput = document.querySelector('.form__input_type_card-title');
 const cardImageLinkInput = document.querySelector('.form__input_type_card-image-link');
 
 //контейнеры и темплейты
-const cardsContainer = document.querySelector('.cards__container');
+const cardsContainerSelector = '.cards__container';
 const cardTemplateSelector = '.card-template';
 
 // настройки валидации
@@ -43,6 +42,17 @@ const validationSettings = {
 const profileEditFormValidator = new FormValidator(validationSettings, profileEditForm);
 const placeAddFormValidator = new FormValidator(validationSettings, cardAddForm);
 
+// Отрисовыватель секции карточек
+const cardsSection = new Section({
+  items: initialCardsData,
+  renderer: (cardData) => {
+    const cardElement = createCardElement(cardData, cardTemplateSelector, openCardPopup);
+    cardsSection.addItemToEnd(cardElement);
+    }
+  },
+  cardsContainerSelector
+);
+
 /**
  * Создает DOM-элемент новой карточки
  * @param {object} data объект с данными карточки
@@ -50,19 +60,9 @@ const placeAddFormValidator = new FormValidator(validationSettings, cardAddForm)
  * @param {Function} handleImageClick функция обработчика клика по картинке в карточке
  * @returns {Element} DOM-элемент карточки с переданными параметрами
  */
-const createCardElement = (data, templateSelector, handleImageClick) => {
+function createCardElement(data, templateSelector, handleImageClick) {
   const cardElement = new Card(data, templateSelector, handleImageClick).generateCard();
   return cardElement;
-}
-
-/**
- * Отрисовывает изначальные карточки, хранящиеся в массиве, при загрузке страницы
- */
-const renderInitialCards = () => {
-  initialCardsData.forEach((cardData) => {
-    const initialCardElement = createCardElement(cardData, cardTemplateSelector, openCardPopup);
-    cardsContainer.append(initialCardElement);
-  });
 }
 
 /**
@@ -148,7 +148,7 @@ const handlePlaceAddFormSubmit = (evt) => {
     imageLink: cardImageLinkInput.value
   };
   const newCardElement = createCardElement(newCardData, cardTemplateSelector, openCardPopup);
-  cardsContainer.prepend(newCardElement);
+  cardsSection.addItemToBegin(newCardElement);
   closePopup(cardAddPopup);
 }
 
@@ -189,7 +189,7 @@ const handlePlaceAddButtonClick = () => {
 setPopupsEventListeners();
 
 // Отрендерим карточки при первоначальной загрузке страницы
-renderInitialCards();
+cardsSection.renderItems();
 
 // Включим валидацию формы редактирования профиля
 profileEditFormValidator.enableValidation();
