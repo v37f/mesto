@@ -8,7 +8,6 @@
   <meta name="keywords" content="mesto, социальная сеть">
   <meta name="author" content="Владимир Фролов">
   <title>Mesto</title>
-  <link rel="stylesheet" href="pages/index.css">
   <link rel="shortcut icon" href="#">
 </head>
 <body>
@@ -16,7 +15,7 @@
 
     <!-- начало блока header -->
     <header class="header">
-      <img class="header__logo" src="images/header__logo.svg" alt="Логотип Mesto">
+      <img class="header__logo" src="<%=require('./images/header__logo.svg')%>" alt="Логотип Mesto">
     </header>
     <!-- конец блока header -->
 
@@ -25,7 +24,7 @@
       <!-- начало блока profile -->
       <section class="profile">
         <div class="profile__container">
-          <img class="profile__avatar" src="images/jacques-yves_cousteau.jpg" alt="Аватар">
+          <img class="profile__avatar" src="<%=require('./images/jacques-yves_cousteau.jpg')%>" alt="Аватар">
           <div class="profile__info">
             <h1 class="profile__name">Жак-Ив Кусто</h1>
             <button class="profile__edit-button" type="button" aria-label="редактирование профиля" title="Редактировать профиль"></button>
@@ -108,13 +107,5 @@
     </template>
     <!-- конец темплейта карточки места -->
   </div>
-  <script type="module" src="pages/index.js"></script>
-  <script type="module" src="components/Card.js"></script>
-  <script type="module" src="components/FormValidator.js"></script>
-  <script type="module" src="components/Section.js"></script>
-  <script type="module" src="components/UserInfo.js"></script>
-  <script type="module" src="components/Popup.js"></script>
-  <script type="module" src="components/PopupWithImage.js"></script>
-  <script type="module" src="components/PopupWithForm.js"></script>
 </body>
 </html>
