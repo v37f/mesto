@@ -8,12 +8,13 @@ import initialCardsData from '../utils/initialCardsData.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 
-// кнопки и формы
+// интерактивные элементы
 const profileEditButton = document.querySelector('.profile__edit-button');
 const cardAddButton = document.querySelector('.profile__card-add-button')
 const profileEditForm = document.querySelector('.form_type_edit-profile');
 const cardAddForm = document.querySelector('.form_type_add-card');
 const updateAvatarForm = document.querySelector('.form_type_update-avatar');
+const profileAvatar = document.querySelector('.profile__avatar');
 
 // селекторы
 const profileNameSelector = '.profile__name';
@@ -121,6 +122,15 @@ const handleProfileEditButtonClick = () => {
 }
 
 /**
+ * Открывает всплывающее окно обновления аватара
+ */
+ const handleProfileAvatarClick = () => {
+  updateAvatarFormValidator.hideInputsValidationErrors();
+  updateAvatarFormValidator.toggleSubmitButtonState();
+  updateAvatarPopup.open();
+}
+
+/**
  * Открывает всплывающее окно добавления карточки
  */
 const handleCardAddButtonClick = () => {
@@ -143,7 +153,9 @@ updateAvatarFormValidator.enableValidation();
 
 // Слушатели
 profileEditButton.addEventListener('click', handleProfileEditButtonClick);
+profileAvatar.addEventListener('click', handleProfileAvatarClick);
 cardAddButton.addEventListener('click', handleCardAddButtonClick);
 cardPopup.setEventListeners();
 profileEditPopup.setEventListeners();
 cardAddPopup.setEventListeners();
+updateAvatarPopup.setEventListeners();
