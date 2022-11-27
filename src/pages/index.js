@@ -13,12 +13,14 @@ const profileEditButton = document.querySelector('.profile__edit-button');
 const cardAddButton = document.querySelector('.profile__card-add-button')
 const profileEditForm = document.querySelector('.form_type_edit-profile');
 const cardAddForm = document.querySelector('.form_type_add-card');
+const updateAvatarForm = document.querySelector('.form_type_update-avatar');
 
 // селекторы
 const profileNameSelector = '.profile__name';
 const profileJobSelector = '.profile__job';
 const cardPopupSelector = '.popup_type_card';
 const profileEditPopupSelector = '.popup_type_edit-profile';
+const updateAvatarPopupSelector = '.popup_type_update-avatar'
 const cardAddPopupSelector = '.popup_type_add-card';
 const cardsContainerSelector = '.cards__container';
 const cardTemplateSelector = '.card-template';
@@ -39,6 +41,7 @@ const validationSettings = {
 // Валидаторы форм
 const profileEditFormValidator = new FormValidator(validationSettings, profileEditForm);
 const placeAddFormValidator = new FormValidator(validationSettings, cardAddForm);
+const updateAvatarFormValidator = new FormValidator(validationSettings, updateAvatarForm);
 
 // Секция карточек
 const cardsSection = new Section({
@@ -59,6 +62,9 @@ const cardPopup = new PopupWithImage(cardPopupSelector);
 
 //попап редактирования профиля
 const profileEditPopup = new PopupWithForm(profileEditPopupSelector, handleProfileEditFormSubmit);
+
+// попап обновления аватара
+const updateAvatarPopup = new PopupWithForm(updateAvatarPopupSelector, handleUpdateAvatarFormSubmit);
 
 //попап добавления карточки
 const cardAddPopup = new PopupWithForm(cardAddPopupSelector, handlePlaceAddFormSubmit);
@@ -82,6 +88,14 @@ function createCardElement(data, templateSelector, handleCardClick) {
 function handleProfileEditFormSubmit(inputValues) {
   currentUser.setUserInfo(inputValues);
   profileEditPopup.close();
+}
+
+/**
+ * Изменяет изменяет аватар профиля на данные введеные пользователем
+ * @param {object} inputValue Объект с данными вида: { имя_инпута: значение }
+ */
+ function handleUpdateAvatarFormSubmit(inputValue) {
+
 }
 
 /**
@@ -123,6 +137,9 @@ profileEditFormValidator.enableValidation();
 
 // Включим валидацию формы добаления ккарточки
 placeAddFormValidator.enableValidation();
+
+// Включим валидацию формы обновления аватара
+updateAvatarFormValidator.enableValidation();
 
 // Слушатели
 profileEditButton.addEventListener('click', handleProfileEditButtonClick);
