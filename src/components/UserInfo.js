@@ -7,10 +7,12 @@ export default class UserInfo {
    * @param {object} Объект с данными пользователя
    * @param {string} nameSelector Селектор элемента имени пользователя
    * @param {string} jobSelector Селектор элемента информации о себе
+   * @param {string} avatarSelector Селектор аватара
    */
-  constructor({ nameSelector, jobSelector }) {
+  constructor({ nameSelector, jobSelector, avatarSelector }) {
     this._nameElement = document.querySelector(nameSelector);
     this._jobElement = document.querySelector(jobSelector);
+    this._avatarElement = document.querySelector(avatarSelector);
   }
 
   /**
@@ -29,9 +31,11 @@ export default class UserInfo {
    * @param {object} Объект с новыми данными пользователя
    * @param {string} userName Имя пользователя
    * @param {string} userJob Информация о себе
+   * @param {string} avatarLink Ссылка на аватар
    */
-  setUserInfo({ userName, userJob }) {
+  setUserInfo({ userName, userJob, avatarLink }) {
     this._nameElement.textContent = userName;
     this._jobElement.textContent = userJob;
+    this._avatarElement.src = avatarLink;
   }
 }

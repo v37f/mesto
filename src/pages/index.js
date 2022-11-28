@@ -7,6 +7,7 @@ import UserInfo from '../components/UserInfo.js';
 import initialCardsData from '../utils/initialCardsData.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
+import Api from '../components/Api';
 
 // интерактивные элементы
 const profileEditButton = document.querySelector('.profile__edit-button');
@@ -19,6 +20,7 @@ const profileAvatar = document.querySelector('.profile__avatar');
 // селекторы
 const profileNameSelector = '.profile__name';
 const profileJobSelector = '.profile__job';
+const profileAvatarSelector = '.profile__avatar-image';
 const cardPopupSelector = '.popup_type_card';
 const profileEditPopupSelector = '.popup_type_edit-profile';
 const updateAvatarPopupSelector = '.popup_type_update-avatar'
@@ -44,6 +46,15 @@ const profileEditFormValidator = new FormValidator(validationSettings, profileEd
 const placeAddFormValidator = new FormValidator(validationSettings, cardAddForm);
 const updateAvatarFormValidator = new FormValidator(validationSettings, updateAvatarForm);
 
+// API
+const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-55',
+  headers: {
+    authorization: '40a136fa-5c6f-4ba8-be9b-7c5623c5024c',
+    'Content-Type': 'application/json'
+  }
+});
+
 // Секция карточек
 const cardsSection = new Section({
   items: initialCardsData,
@@ -56,7 +67,11 @@ const cardsSection = new Section({
 );
 
 // текущий пользователь
-const currentUser = new UserInfo({ nameSelector: profileNameSelector, jobSelector: profileJobSelector});
+const currentUser = new UserInfo({
+  nameSelector: profileNameSelector,
+  jobSelector: profileJobSelector,
+  avatarSelector: profileAvatarSelector
+});
 
 //попап с картинкой
 const cardPopup = new PopupWithImage(cardPopupSelector);
@@ -138,6 +153,20 @@ const handleCardAddButtonClick = () => {
   placeAddFormValidator.toggleSubmitButtonState();
   cardAddPopup.open();
 }
+
+// Получаем данные о пользователе с сервера и подставляем их в разметку
+api.getUserInfo()
+  .then(userInfo => {
+    currentUser.setUserInfo({
+      userName: userInfo.name,
+      userJob: userInfo.about,
+      avatarLink: userInfo.avatar
+    });
+  })
+  .catch((error) => {
+    console.log('Не удалось получить данные пользователя от сервера');
+    console.log(error);
+  });
 
 // Отрендерим карточки при первоначальной загрузке страницы
 cardsSection.renderItems();
