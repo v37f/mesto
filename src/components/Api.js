@@ -28,9 +28,35 @@ export default class Api {
     })
   }
 
+  /**
+   * Получает карточки с сервера
+   * @returns {Promise} Ответ от сервера с массивом карточек
+   */
   getInitialCards() {
     return fetch(`${this._baseUrl}/cards`, {
       headers: this._headers
+    })
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        return Promise.reject(`Ошибка: ${res.status}`);
+      }
+    })
+  }
+
+  /**
+   * Обновляет на сервере данные пользователя
+   * @returns {Promise} Ответ от сервера с обновленными данными пользователя
+   */
+  updateUserInfo({ name, about }) {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSON.stringify({
+        name: name,
+        about: about
+      })
     })
     .then(res => {
       if (res.ok) {

@@ -110,13 +110,31 @@ function createCardElement(data, templateSelector, handleCardClick) {
   return cardElement;
 }
 
+console.log();
+
 /**
  * Изменяет данные профиля на данные введеные пользователем
  * @param {object} inputValues Объект с данными вида: { имя_инпута: значение }
  */
 function handleProfileEditFormSubmit(inputValues) {
-  currentUser.setUserInfo(inputValues);
-  profileEditPopup.close();
+  api.updateUserInfo({
+    name: inputValues.userName,
+    about: inputValues.userJob
+  })
+  .then((userInfo) => {
+    currentUser.setUserInfo({
+      userName: userInfo.name,
+      userJob: userInfo.about,
+      avatarLink: userInfo.avatar
+    });
+  })
+  .catch((error) => {
+    console.log('Не удалось обновить данные пользователя');
+    console.log(error);
+  })
+  .finally(() => {
+    profileEditPopup.close();
+  });
 }
 
 /**
