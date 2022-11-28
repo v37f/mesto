@@ -14,6 +14,9 @@ export default class PopupWithConfirmation extends Popup {
     this._formElement = this._popup.querySelector('.form');
   }
 
+  setCard(card) {
+    this._card = card;
+  }
   /**
    * Устанавливает слушатель, для закрытия попапа по нажатию на оверлей или крестик,
    * а так же на сабмит формы
@@ -22,7 +25,7 @@ export default class PopupWithConfirmation extends Popup {
     super.setEventListeners();
     this._formElement.addEventListener('submit', (evt) => {
       evt.preventDefault();
-      this._handleFormSubmit();
+      this._handleFormSubmit(this._card);
     });
   }
 }

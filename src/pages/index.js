@@ -65,7 +65,7 @@ api.getInitialCards()
     cardsSection = new Section({
       items: initialCards,
       renderer: (cardData) => {
-        const cardElement = createCardElement(cardData, cardTemplateSelector, cardPopup.open.bind(cardPopup), deleteCardPopup.open.bind(deleteCardPopup));
+        const cardElement = createCardElement(cardData, cardTemplateSelector, cardPopup.open.bind(cardPopup), handleDeleteButtonClick);
         cardsSection.addItemToEnd(cardElement);
       }
     },
@@ -102,7 +102,7 @@ const updateAvatarPopup = new PopupWithForm(updateAvatarPopupSelector, handleUpd
 const cardAddPopup = new PopupWithForm(cardAddPopupSelector, handleCardAddFormSubmit);
 
 // попап подтверждения удаления карточки
-const deleteCardPopup = new PopupWithConfirmation(deleteCardPopupSelector, handleDeleteCardFormSubmit);
+// const deleteCardPopup = new PopupWithConfirmation(deleteCardPopupSelector, handleDeleteCardFormSubmit);
 
 /**
  * Создает DOM-элемент новой карточки
@@ -141,12 +141,35 @@ function handleProfileEditFormSubmit(inputValues) {
   });
 }
 
+const deleteCardPopup = new PopupWithConfirmation(deleteCardPopupSelector, handleDeleteCardFormSubmit);
+deleteCardPopup.setEventListeners();
+function handleDeleteButtonClick(card) {
+
+  deleteCardPopup.setCard(card);
+
+  deleteCardPopup.open();
+}
+
 /**
  * Удаляет карточку с сервера
  */
-function handleDeleteCardFormSubmit() {
+function handleDeleteCardFormSubmit(card) {
 
+  api.deleteCard(card._id)
+  .then(() => {
+    console.log(card);
+    card._cardElement.remove();
+    card._cardElement = null;
+  })
+  .catch((error) => {
+  console.log('Не удалось удалить карточку');
+  console.log(error);
+  })
+  .finally(() => {
+    deleteCardPopup.close();
+  });
 }
+
 
 /**
  * Изменяет изменяет аватар профиля на данные введеные пользователем
@@ -167,7 +190,7 @@ function handleCardAddFormSubmit(inputValues) {
     link: inputValues.imageLink
    })
    .then((cardData) => {
-    const newCardElement = createCardElement(cardData, cardTemplateSelector, cardPopup.open.bind(cardPopup), deleteCardPopup.open.bind(deleteCardPopup));
+    const newCardElement = createCardElement(cardData, cardTemplateSelector, cardPopup.open.bind(cardPopup), handleDeleteButtonClick);
     cardsSection.addItemToBegin(newCardElement);
    })
    .catch((error) => {
@@ -242,4 +265,4 @@ cardPopup.setEventListeners();
 profileEditPopup.setEventListeners();
 cardAddPopup.setEventListeners();
 updateAvatarPopup.setEventListeners();
-deleteCardPopup.setEventListeners();
+

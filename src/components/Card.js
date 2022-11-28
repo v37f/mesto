@@ -12,6 +12,7 @@ export default class Card {
     this._title = data.name;
     this._imageLink = data.link;
     this._likes = data.likes;
+    this._id = data._id;
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
     this._handleDeleteButtonClick = handleDeleteButtonClick;
@@ -37,12 +38,12 @@ export default class Card {
   _setEventListeners() {
     this._likeButtonElement.addEventListener('click', () => {
       this._handleLikeButtonClick();
-      this._cardElement.remove();
-      this._cardElement = null;
     });
 
     this._deleteButtonElement.addEventListener('click', () => {
-      this._handleDeleteButtonClick();
+      this._handleDeleteButtonClick(this);
+      // this._cardElement.remove();
+      // this._cardElement = null;
     });
 
     this._cardElement.addEventListener('click', (evt) => {
