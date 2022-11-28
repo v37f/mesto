@@ -8,12 +8,13 @@ export default class Card {
    * @param {string} templateSelector Селектор шаблона разметки карточки
    * @param {Function} handleCardClick Обработчик клика по картинке
    */
-  constructor(data, templateSelector, handleCardClick) {
+  constructor(data, templateSelector, handleCardClick, handleDeleteButtonClick) {
     this._title = data.name;
     this._imageLink = data.link;
     this._likes = data.likes;
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
+    this._handleDeleteButtonClick = handleDeleteButtonClick;
   }
 
   /**
@@ -36,6 +37,8 @@ export default class Card {
   _setEventListeners() {
     this._likeButtonElement.addEventListener('click', () => {
       this._handleLikeButtonClick();
+      this._cardElement.remove();
+      this._cardElement = null;
     });
 
     this._deleteButtonElement.addEventListener('click', () => {
@@ -55,14 +58,6 @@ export default class Card {
    */
   _handleLikeButtonClick() {
     this._likeButtonElement.classList.toggle('card__like-button_active');
-  }
-
-  /**
-   * Удаляет DOM-элемент карточки из разметки
-   */
-  _handleDeleteButtonClick() {
-    this._cardElement.remove();
-    this._cardElement = null;
   }
 
   /**

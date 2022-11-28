@@ -7,6 +7,7 @@ import UserInfo from '../components/UserInfo.js';
 import initialCardsData from '../utils/initialCardsData.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
+import PopupWithConfirmation from '../components/PopupWithConfirmation';
 import Api from '../components/Api';
 
 // интерактивные элементы
@@ -24,6 +25,7 @@ const profileAvatarSelector = '.profile__avatar-image';
 const cardPopupSelector = '.popup_type_card';
 const profileEditPopupSelector = '.popup_type_edit-profile';
 const updateAvatarPopupSelector = '.popup_type_update-avatar'
+const deleteCardPopupSelector = '.popup_type_confirm';
 const cardAddPopupSelector = '.popup_type_add-card';
 const cardsContainerSelector = '.cards__container';
 const cardTemplateSelector = '.card-template';
@@ -63,7 +65,7 @@ api.getInitialCards()
     cardsSection = new Section({
       items: initialCards,
       renderer: (cardData) => {
-        const cardElement = createCardElement(cardData, cardTemplateSelector, cardPopup.open.bind(cardPopup));
+        const cardElement = createCardElement(cardData, cardTemplateSelector, cardPopup.open.bind(cardPopup), deleteCardPopup.open.bind(deleteCardPopup));
         cardsSection.addItemToEnd(cardElement);
       }
     },
@@ -99,6 +101,9 @@ const updateAvatarPopup = new PopupWithForm(updateAvatarPopupSelector, handleUpd
 //попап добавления карточки
 const cardAddPopup = new PopupWithForm(cardAddPopupSelector, handleCardAddFormSubmit);
 
+// попап подтверждения удаления карточки
+const deleteCardPopup = new PopupWithConfirmation(deleteCardPopupSelector, handleDeleteCardFormSubmit);
+
 /**
  * Создает DOM-элемент новой карточки
  * @param {object} data объект с данными карточки
@@ -106,8 +111,8 @@ const cardAddPopup = new PopupWithForm(cardAddPopupSelector, handleCardAddFormSu
  * @param {Function} handleCardClick функция обработчика клика по карточке
  * @returns {Element} DOM-элемент карточки с переданными параметрами
  */
-function createCardElement(data, templateSelector, handleCardClick) {
-  const cardElement = new Card(data, templateSelector, handleCardClick).generateCard();
+function createCardElement(data, templateSelector, handleCardClick, handleDeleteButtonClick) {
+  const cardElement = new Card(data, templateSelector, handleCardClick, handleDeleteButtonClick).generateCard();
   return cardElement;
 }
 
@@ -137,6 +142,13 @@ function handleProfileEditFormSubmit(inputValues) {
 }
 
 /**
+ * Удаляет карточку с сервера
+ */
+function handleDeleteCardFormSubmit() {
+
+}
+
+/**
  * Изменяет изменяет аватар профиля на данные введеные пользователем
  * @param {object} inputValue Объект с данными вида: { имя_инпута: значение }
  */
@@ -155,7 +167,7 @@ function handleCardAddFormSubmit(inputValues) {
     link: inputValues.imageLink
    })
    .then((cardData) => {
-    const newCardElement = createCardElement(cardData, cardTemplateSelector, cardPopup.open.bind(cardPopup));
+    const newCardElement = createCardElement(cardData, cardTemplateSelector, cardPopup.open.bind(cardPopup), deleteCardPopup.open.bind(deleteCardPopup));
     cardsSection.addItemToBegin(newCardElement);
    })
    .catch((error) => {
@@ -230,3 +242,4 @@ cardPopup.setEventListeners();
 profileEditPopup.setEventListeners();
 cardAddPopup.setEventListeners();
 updateAvatarPopup.setEventListeners();
+deleteCardPopup.setEventListeners();
