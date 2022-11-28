@@ -9,8 +9,8 @@ export default class Card {
    * @param {Function} handleCardClick Обработчик клика по картинке
    */
   constructor(data, templateSelector, handleCardClick) {
-    this._title = data.cardTitle;
-    this._imageLink = data.imageLink;
+    this._title = data.name;
+    this._imageLink = data.link;
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
   }

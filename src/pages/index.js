@@ -55,16 +55,29 @@ const api = new Api({
   }
 });
 
-// Секция карточек
-const cardsSection = new Section({
-  items: initialCardsData,
-  renderer: (cardData) => {
-    const cardElement = createCardElement(cardData, cardTemplateSelector, cardPopup.open.bind(cardPopup));
-    cardsSection.addItemToEnd(cardElement);
-    }
-  },
-  cardsContainerSelector
-);
+// получим массив карточек с сервера
+api.getInitialCards()
+  .then(initialCards => {
+    // создадим секцию карточек
+    const cardsSection = new Section({
+      items: initialCards,
+      renderer: (cardData) => {
+        const cardElement = createCardElement(cardData, cardTemplateSelector, cardPopup.open.bind(cardPopup));
+        cardsSection.addItemToEnd(cardElement);
+      }
+    },
+      cardsContainerSelector
+    );
+    return cardsSection;
+  })
+  .then(section => {
+    // Отрендерим карточки
+    section.renderItems();
+  })
+  .catch((error) => {
+    console.log('Не удалось получить данные карточек от сервера');
+    console.log(error);
+  });
 
 // текущий пользователь
 const currentUser = new UserInfo({
@@ -110,7 +123,7 @@ function handleProfileEditFormSubmit(inputValues) {
  * Изменяет изменяет аватар профиля на данные введеные пользователем
  * @param {object} inputValue Объект с данными вида: { имя_инпута: значение }
  */
- function handleUpdateAvatarFormSubmit(inputValue) {
+function handleUpdateAvatarFormSubmit(inputValue) {
 
 }
 
@@ -128,7 +141,7 @@ function handlePlaceAddFormSubmit(inputValues) {
  * Открывает всплывающее окно редактирования профиля
  */
 const handleProfileEditButtonClick = () => {
-  const { userName, userJob} = currentUser.getUserInfo();
+  const { userName, userJob } = currentUser.getUserInfo();
   profileNameInput.value = userName;
   profileJobInput.value = userJob;
   profileEditFormValidator.hideInputsValidationErrors();
@@ -139,7 +152,7 @@ const handleProfileEditButtonClick = () => {
 /**
  * Открывает всплывающее окно обновления аватара
  */
- const handleProfileAvatarClick = () => {
+const handleProfileAvatarClick = () => {
   updateAvatarFormValidator.hideInputsValidationErrors();
   updateAvatarFormValidator.toggleSubmitButtonState();
   updateAvatarPopup.open();
@@ -168,8 +181,7 @@ api.getUserInfo()
     console.log(error);
   });
 
-// Отрендерим карточки при первоначальной загрузке страницы
-cardsSection.renderItems();
+
 
 // Включим валидацию формы редактирования профиля
 profileEditFormValidator.enableValidation();
