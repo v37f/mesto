@@ -55,11 +55,12 @@ const api = new Api({
   }
 });
 
+let cardsSection = null;
 // получим массив карточек с сервера
 api.getInitialCards()
   .then(initialCards => {
     // создадим секцию карточек
-    const cardsSection = new Section({
+    cardsSection = new Section({
       items: initialCards,
       renderer: (cardData) => {
         const cardElement = createCardElement(cardData, cardTemplateSelector, cardPopup.open.bind(cardPopup));
@@ -96,7 +97,7 @@ const profileEditPopup = new PopupWithForm(profileEditPopupSelector, handleProfi
 const updateAvatarPopup = new PopupWithForm(updateAvatarPopupSelector, handleUpdateAvatarFormSubmit);
 
 //попап добавления карточки
-const cardAddPopup = new PopupWithForm(cardAddPopupSelector, handlePlaceAddFormSubmit);
+const cardAddPopup = new PopupWithForm(cardAddPopupSelector, handleCardAddFormSubmit);
 
 /**
  * Создает DOM-элемент новой карточки
@@ -109,8 +110,6 @@ function createCardElement(data, templateSelector, handleCardClick) {
   const cardElement = new Card(data, templateSelector, handleCardClick).generateCard();
   return cardElement;
 }
-
-console.log();
 
 /**
  * Изменяет данные профиля на данные введеные пользователем
@@ -146,13 +145,26 @@ function handleUpdateAvatarFormSubmit(inputValue) {
 }
 
 /**
- * Cоздает новую карточку на основе введенных пользователем данных и доабвляет ее на страницу
+ * Cоздает новую карточку на основе введенных пользователем данных,
+ * загружает её на сервер и добавляет ее на страницу
  * @param {object} inputValues Объект с данными вида: { имя_инпута: значение }
  */
-function handlePlaceAddFormSubmit(inputValues) {
-  const newCardElement = createCardElement(inputValues, cardTemplateSelector, cardPopup.open.bind(cardPopup));
-  cardsSection.addItemToBegin(newCardElement);
-  cardAddPopup.close();
+function handleCardAddFormSubmit(inputValues) {
+  api.addCard({
+    name: inputValues.cardTitle,
+    link: inputValues.imageLink
+   })
+   .then((cardData) => {
+    const newCardElement = createCardElement(cardData, cardTemplateSelector, cardPopup.open.bind(cardPopup));
+    cardsSection.addItemToBegin(newCardElement);
+   })
+   .catch((error) => {
+    console.log('Не удалось добавить карточку');
+    console.log(error);
+  })
+  .finally(() => {
+    cardAddPopup.close();
+  });
 }
 
 /**
