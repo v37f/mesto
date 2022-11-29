@@ -19,10 +19,12 @@ export default class PopupWithConfirmation extends Popup {
    * @param {string} itemId уникальный идентификатор сущности
    * @param {Element} itemElement DOM-элемент сущности
    */
-  setItemInfo(itemId, itemElement) {
+   open(itemId, itemElement) {
+    super.open();
     this._itemId = itemId;
     this._itemElement = itemElement;
   }
+
   /**
    * Устанавливает слушатель, для закрытия попапа по нажатию на оверлей или крестик,
    * а так же на сабмит формы

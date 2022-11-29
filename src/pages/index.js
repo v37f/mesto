@@ -122,16 +122,6 @@ function handleProfileEditFormSubmit(inputValues) {
 }
 
 /**
- * Записывает данные карточки в попап и открывает его
- * @param {string} cardId уникальный идентификатор карточки
- * @param {Element} cardElement DOM-элемент карточки
- */
-function handleDeleteButtonClick(cardId, cardElement) {
-  deleteCardPopup.setItemInfo(cardId, cardElement);
-  deleteCardPopup.open();
-}
-
-/**
  * Удаляет карточку с сервера и после этого из разметки
  * @param {string} cardId уникальный идентификатор карточки
  * @param {Element} cardElement DOM-элемент карточки
@@ -172,7 +162,13 @@ function handleCardAddFormSubmit(inputValues) {
     link: inputValues.imageLink
    })
    .then((cardData) => {
-    const newCardElement = createCardElement(cardData, cardTemplateSelector, cardPopup.open.bind(cardPopup), handleDeleteButtonClick, currentUser.getUserInfo().userId);
+    const newCardElement = createCardElement(
+      cardData,
+      cardTemplateSelector,
+      cardPopup.open.bind(cardPopup),
+      deleteCardPopup.open.bind(deleteCardPopup),
+      currentUser.getUserInfo().userId
+      );
     cardsSection.addItemToBegin(newCardElement);
    })
    .catch((error) => {
@@ -235,7 +231,13 @@ api.getUserInfo()
       cardsSection = new Section({
         items: initialCards,
         renderer: (cardData) => {
-          const cardElement = createCardElement(cardData, cardTemplateSelector, cardPopup.open.bind(cardPopup), handleDeleteButtonClick, currentUserId);
+          const cardElement = createCardElement(
+            cardData,
+            cardTemplateSelector,
+            cardPopup.open.bind(cardPopup),
+            deleteCardPopup.open.bind(deleteCardPopup),
+            currentUserId
+            );
           cardsSection.addItemToEnd(cardElement);
         }
       },
