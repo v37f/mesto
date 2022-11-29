@@ -41,9 +41,7 @@ export default class Card {
     });
 
     this._deleteButtonElement.addEventListener('click', () => {
-      this._handleDeleteButtonClick(this);
-      // this._cardElement.remove();
-      // this._cardElement = null;
+      this._handleDeleteButtonClick(this._id, this._cardElement);
     });
 
     this._cardElement.addEventListener('click', (evt) => {

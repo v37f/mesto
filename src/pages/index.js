@@ -57,6 +57,7 @@ const api = new Api({
   }
 });
 
+// создаем переменную секции карточек в глобальной области видимости
 let cardsSection = null;
 // получим массив карточек с сервера
 api.getInitialCards()
@@ -89,20 +90,20 @@ const currentUser = new UserInfo({
   avatarSelector: profileAvatarSelector
 });
 
-//попап с картинкой
+// попап с картинкой
 const cardPopup = new PopupWithImage(cardPopupSelector);
 
-//попап редактирования профиля
+// попап редактирования профиля
 const profileEditPopup = new PopupWithForm(profileEditPopupSelector, handleProfileEditFormSubmit);
 
 // попап обновления аватара
 const updateAvatarPopup = new PopupWithForm(updateAvatarPopupSelector, handleUpdateAvatarFormSubmit);
 
-//попап добавления карточки
+// попап добавления карточки
 const cardAddPopup = new PopupWithForm(cardAddPopupSelector, handleCardAddFormSubmit);
 
 // попап подтверждения удаления карточки
-// const deleteCardPopup = new PopupWithConfirmation(deleteCardPopupSelector, handleDeleteCardFormSubmit);
+const deleteCardPopup = new PopupWithConfirmation(deleteCardPopupSelector, handleDeleteCardFormSubmit);
 
 /**
  * Создает DOM-элемент новой карточки
@@ -141,25 +142,26 @@ function handleProfileEditFormSubmit(inputValues) {
   });
 }
 
-const deleteCardPopup = new PopupWithConfirmation(deleteCardPopupSelector, handleDeleteCardFormSubmit);
-deleteCardPopup.setEventListeners();
-function handleDeleteButtonClick(card) {
-
-  deleteCardPopup.setCard(card);
-
+/**
+ * Записывает данные карточки в попап и открывает его
+ * @param {string} cardId уникальный идентификатор карточки
+ * @param {Element} cardElement DOM-элемент карточки
+ */
+function handleDeleteButtonClick(cardId, cardElement) {
+  deleteCardPopup.setItemInfo(cardId, cardElement);
   deleteCardPopup.open();
 }
 
 /**
- * Удаляет карточку с сервера
+ * Удаляет карточку с сервера и после этого из разметки
+ * @param {string} cardId уникальный идентификатор карточки
+ * @param {Element} cardElement DOM-элемент карточки
  */
-function handleDeleteCardFormSubmit(card) {
-
-  api.deleteCard(card._id)
+function handleDeleteCardFormSubmit(cardId, cardElement) {
+  api.deleteCard(cardId)
   .then(() => {
-    console.log(card);
-    card._cardElement.remove();
-    card._cardElement = null;
+    cardElement.remove();
+    cardElement = null;
   })
   .catch((error) => {
   console.log('Не удалось удалить карточку');
@@ -167,6 +169,7 @@ function handleDeleteCardFormSubmit(card) {
   })
   .finally(() => {
     deleteCardPopup.close();
+    deleteCardPopup.setItemInfo(null, null);
   });
 }
 
@@ -265,4 +268,4 @@ cardPopup.setEventListeners();
 profileEditPopup.setEventListeners();
 cardAddPopup.setEventListeners();
 updateAvatarPopup.setEventListeners();
-
+deleteCardPopup.setEventListeners();

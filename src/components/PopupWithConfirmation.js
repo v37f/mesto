@@ -14,8 +14,14 @@ export default class PopupWithConfirmation extends Popup {
     this._formElement = this._popup.querySelector('.form');
   }
 
-  setCard(card) {
-    this._card = card;
+  /**
+   * Записывает данные сущности в попап и открывает его
+   * @param {string} itemId уникальный идентификатор сущности
+   * @param {Element} itemElement DOM-элемент сущности
+   */
+  setItemInfo(itemId, itemElement) {
+    this._itemId = itemId;
+    this._itemElement = itemElement;
   }
   /**
    * Устанавливает слушатель, для закрытия попапа по нажатию на оверлей или крестик,
@@ -25,7 +31,7 @@ export default class PopupWithConfirmation extends Popup {
     super.setEventListeners();
     this._formElement.addEventListener('submit', (evt) => {
       evt.preventDefault();
-      this._handleFormSubmit(this._card);
+      this._handleFormSubmit(this._itemId, this._itemElement);
     });
   }
 }
