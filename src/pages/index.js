@@ -108,8 +108,7 @@ function handleProfileEditFormSubmit(inputValues) {
   .then((userInfo) => {
     currentUser.setUserInfo({
       userName: userInfo.name,
-      userJob: userInfo.about,
-      avatarLink: userInfo.avatar
+      userJob: userInfo.about
     });
   })
   .catch((error) => {
@@ -144,11 +143,21 @@ function handleDeleteCardFormSubmit(cardId, cardElement) {
 
 
 /**
- * Изменяет изменяет аватар профиля на данные введеные пользователем
+ * Изменяет аватар профиля на данные введеные пользователем
  * @param {object} inputValue Объект с данными вида: { имя_инпута: значение }
  */
 function handleUpdateAvatarFormSubmit(inputValue) {
-
+  api.updateAvatar(inputValue.avatar)
+    .then(res => {
+      currentUser.setAvatar(inputValue.avatar);
+    })
+    .catch((error) => {
+      console.log('Не удалось обновить аватар');
+      console.log(error);
+    })
+    .finally(() => {
+      updateAvatarPopup.close();
+    });
 }
 
 /**
@@ -218,9 +227,9 @@ api.getUserInfo()
     currentUser.setUserInfo({
       userName: userInfo.name,
       userJob: userInfo.about,
-      avatarLink: userInfo.avatar,
       userId: userInfo._id
     });
+    currentUser.setAvatar(userInfo.avatar);
     // вернем id текущего пользователя чтобы в дальнейшем использовать его
     // при работе с карточками
     return userInfo._id;

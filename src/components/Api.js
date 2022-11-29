@@ -68,6 +68,27 @@ export default class Api {
   }
 
   /**
+   * Обновляет аватар пользователя
+   * @returns {Promise} Ответ от сервера с обновленными данными пользователя
+   */
+   updateAvatar(avatarLink) {
+    return fetch(`${this._baseUrl}/users/me/avatar`, {
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSON.stringify({
+        avatar: avatarLink,
+      })
+    })
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        return Promise.reject(`Ошибка: ${res.status}`);
+      }
+    })
+  }
+
+  /**
    * Добавляет новую карточку на сервер
    * @returns {Promise} Ответ от сервера с объектом новой карточки
    */

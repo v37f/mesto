@@ -38,7 +38,14 @@ export default class UserInfo {
   setUserInfo({ userName, userJob, avatarLink, userId }) {
     this._nameElement.textContent = userName;
     this._jobElement.textContent = userJob;
-    this._avatarElement.src = avatarLink;
     this._userId = userId;
+  }
+
+  /**
+   * Устанавливает аватар пользователя
+   * @param {string} avatarLink Ссылка на аватар
+   */
+  setAvatar(avatarLink) {
+    this._avatarElement.src = avatarLink;
   }
 }
