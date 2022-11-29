@@ -10,7 +10,7 @@ export default class Card {
    * @param {Function} handleDeleteButtonClick Обработчик клика по кнопке удаления
    * @param {string} currentUserId уникальный идентификатор текущего пользователя
    */
-  constructor(data, templateSelector, handleCardClick, handleDeleteButtonClick, currentUserId) {
+  constructor(data, templateSelector, handleCardClick, handleDeleteButtonClick, currentUserId, handleSetLike, handleRemoveLike) {
     this._title = data.name;
     this._imageLink = data.link;
     this._likes = data.likes;
@@ -20,6 +20,9 @@ export default class Card {
     this._handleCardClick = handleCardClick;
     this._handleDeleteButtonClick = handleDeleteButtonClick;
     this._currentUserId = currentUserId;
+    this._handleSetLike = handleSetLike;
+    this._handleRemoveLike = handleRemoveLike;
+    this._isLiked = this._isLikedByCurrentUser();
   }
 
   /**
@@ -44,13 +47,46 @@ export default class Card {
     return this._owner._id === this._currentUserId;
   }
 
+  /**
+   * Функция определяет лайкнута ли карточка текущим пользователем
+   * @returns {boolean} true - если лайкнута
+   */
+  _isLikedByCurrentUser() {
+    return this._likes.some(like => {
+      return like._id === this._currentUserId;
+    });
+  }
 
   /**
    * Устанавливает слушатели на элементы карточки
    */
   _setEventListeners() {
     this._likeButtonElement.addEventListener('click', () => {
-      this._handleLikeButtonClick();
+      if (this._isLiked) {
+        this._handleRemoveLike(this._id)
+          .then((updatedCard) => {
+            this._likes = updatedCard.likes;
+            this._likeCounterElement.textContent = this._likes.length;
+            this._likeButtonElement.classList.remove('card__like-button_active');
+            this._isLiked = !this._isLiked;
+          })
+          .catch((error) => {
+            console.log('Не удалось убрать лайк');
+            console.log(error);
+          })
+      } else {
+        this._handleSetLike(this._id)
+        .then((updatedCard) => {
+          this._likes = updatedCard.likes;
+          this._likeCounterElement.textContent = this._likes.length;
+          this._likeButtonElement.classList.add('card__like-button_active');
+          this._isLiked = !this._isLiked;
+        })
+        .catch((error) => {
+          console.log('Не удалось поставить лайк');
+          console.log(error);
+        })
+      }
     });
 
     this._deleteButtonElement.addEventListener('click', () => {
@@ -79,6 +115,9 @@ export default class Card {
   generateCard() {
     this._cardElement = this._getTemplate();
     this._likeButtonElement = this._cardElement.querySelector('.card__like-button');
+    if (this._isLikedByCurrentUser()) {
+      this._likeButtonElement.classList.add('card__like-button_active');
+    }
     this._imageElement = this._cardElement.querySelector('.card__image');
     this._deleteButtonElement = this._cardElement.querySelector('.card__delete-button');
     this._titleElement = this._cardElement.querySelector('.card__title');

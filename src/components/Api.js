@@ -91,10 +91,46 @@ export default class Api {
 
   /**
    * Удаляет карточку с сервера
-   * @returns {Promise} Ответ от сервера с объектом новой карточки
+   * @returns {Promise} Ответ от сервера
    */
   deleteCard(cardId) {
     return fetch(`${this._baseUrl}/cards/${cardId}`, {
+      method: 'DELETE',
+      headers: this._headers,
+    })
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        return Promise.reject(`Ошибка: ${res.status}`);
+      }
+    })
+  }
+
+  /**
+   * Ставит лайк карточке
+   * @returns {Promise} Ответ от сервера с обновленным объектом карточки
+   */
+   setLike(cardId) {
+    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+      method: 'PUT',
+      headers: this._headers,
+    })
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        return Promise.reject(`Ошибка: ${res.status}`);
+      }
+    })
+  }
+
+  /**
+   * Убирает лайк карточке
+   * @returns {Promise} Ответ от сервера с обновленным объектом карточки
+   */
+   removeLike(cardId) {
+    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: 'DELETE',
       headers: this._headers,
     })

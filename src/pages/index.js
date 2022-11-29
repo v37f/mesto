@@ -91,8 +91,8 @@ const deleteCardPopup = new PopupWithConfirmation(deleteCardPopupSelector, handl
  * @param {string} currentUserId уникальный идентификатор текущего пользователя
  * @returns {Element} DOM-элемент карточки с переданными параметрами
  */
-function createCardElement(data, templateSelector, handleCardClick, handleDeleteButtonClick, currentUserId) {
-  const cardElement = new Card(data, templateSelector, handleCardClick, handleDeleteButtonClick, currentUserId).generateCard();
+function createCardElement(data, templateSelector, handleCardClick, handleDeleteButtonClick, currentUserId, handleSetLike, handleRemoveLike) {
+  const cardElement = new Card(data, templateSelector, handleCardClick, handleDeleteButtonClick, currentUserId, handleSetLike, handleRemoveLike).generateCard();
   return cardElement;
 }
 
@@ -167,7 +167,9 @@ function handleCardAddFormSubmit(inputValues) {
       cardTemplateSelector,
       cardPopup.open.bind(cardPopup),
       deleteCardPopup.open.bind(deleteCardPopup),
-      currentUser.getUserInfo().userId
+      currentUser.getUserInfo().userId,
+      api.setLike.bind(api),
+      api.removeLike.bind(api)
       );
     cardsSection.addItemToBegin(newCardElement);
    })
@@ -236,7 +238,9 @@ api.getUserInfo()
             cardTemplateSelector,
             cardPopup.open.bind(cardPopup),
             deleteCardPopup.open.bind(deleteCardPopup),
-            currentUserId
+            currentUserId,
+            api.setLike.bind(api),
+            api.removeLike.bind(api)
             );
           cardsSection.addItemToEnd(cardElement);
         }
