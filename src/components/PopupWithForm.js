@@ -12,6 +12,8 @@ export default class PopupWithForm extends Popup {
     super(popupSelector);
     this._handleFormSubmit = handleFormSubmit;
     this._formElement = this._popup.querySelector('.form');
+    this._submitButtonElement = this._formElement.querySelector('.form__button_type_submit');
+    this._submitButtonText = this._submitButtonElement.textContent;
   }
 
   /**
@@ -28,6 +30,25 @@ export default class PopupWithForm extends Popup {
   }
 
   /**
+   * Изменяет надпись на кнопке во вермя загрузки данных
+   * @param {boolean} isLoading true - когда идет обмен данными с сервером
+   */
+  _renderLoading(isLoading) {
+    if (isLoading) {
+      switch(this._submitButtonText) {
+        case 'Создать':
+          this._submitButtonElement.textContent = 'Создание...';
+          break;
+        default:
+          this._submitButtonElement.textContent = 'Сохранение...';
+          break;
+      }
+    } else {
+      this._submitButtonElement.textContent = this._submitButtonText
+    }
+  }
+
+  /**
    * Устанавливает слушатель, для закрытия попапа по нажатию на оверлей или крестик,
    * а так же на сабмит формы
    */
@@ -35,7 +56,11 @@ export default class PopupWithForm extends Popup {
     super.setEventListeners();
     this._formElement.addEventListener('submit', (evt) => {
       evt.preventDefault();
-      this._handleFormSubmit(this._getInputValues());
+      this._renderLoading(true);
+      this._handleFormSubmit(this._getInputValues())
+        .finally(() => {
+          this._renderLoading(false);
+        });
     });
   }
 

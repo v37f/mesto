@@ -101,7 +101,7 @@ function createCardElement(data, templateSelector, handleCardClick, handleDelete
  * @param {object} inputValues Объект с данными вида: { имя_инпута: значение }
  */
 function handleProfileEditFormSubmit(inputValues) {
-  api.updateUserInfo({
+  return api.updateUserInfo({
     name: inputValues.userName,
     about: inputValues.userJob
   })
@@ -137,7 +137,6 @@ function handleDeleteCardFormSubmit(cardId, cardElement) {
   })
   .finally(() => {
     deleteCardPopup.close();
-    deleteCardPopup.setItemInfo(null, null);
   });
 }
 
@@ -147,7 +146,7 @@ function handleDeleteCardFormSubmit(cardId, cardElement) {
  * @param {object} inputValue Объект с данными вида: { имя_инпута: значение }
  */
 function handleUpdateAvatarFormSubmit(inputValue) {
-  api.updateAvatar(inputValue.avatar)
+  return api.updateAvatar(inputValue.avatar)
     .then(res => {
       currentUser.setAvatar(inputValue.avatar);
     })
@@ -166,7 +165,7 @@ function handleUpdateAvatarFormSubmit(inputValue) {
  * @param {object} inputValues Объект с данными вида: { имя_инпута: значение }
  */
 function handleCardAddFormSubmit(inputValues) {
-  api.addCard({
+  return api.addCard({
     name: inputValues.cardTitle,
     link: inputValues.imageLink
    })
