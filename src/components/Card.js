@@ -4,18 +4,20 @@
 export default class Card {
   /**
    * @constructor
-   * @param {object} data Данные карточки
+   * @param {object} cardData Объект с данными карточки
    * @param {string} templateSelector Селектор шаблона разметки карточки
    * @param {Function} handleCardClick Обработчик клика по картинке
    * @param {Function} handleDeleteButtonClick Обработчик клика по кнопке удаления
    * @param {string} currentUserId уникальный идентификатор текущего пользователя
+   * @param {Function} handleSetLike Обработчик установки лайка
+   * @param {Function} handleRemoveLike Обработчик снятия лайка
    */
-  constructor(data, templateSelector, handleCardClick, handleDeleteButtonClick, currentUserId, handleSetLike, handleRemoveLike) {
-    this._title = data.name;
-    this._imageLink = data.link;
-    this._likes = data.likes;
-    this._id = data._id;
-    this._owner = data.owner;
+  constructor(cardData, templateSelector, handleCardClick, handleDeleteButtonClick, currentUserId, handleSetLike, handleRemoveLike) {
+    this._title = cardData.name;
+    this._imageLink = cardData.link;
+    this._likes = cardData.likes;
+    this._id = cardData._id;
+    this._owner = cardData.owner;
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
     this._handleDeleteButtonClick = handleDeleteButtonClick;
@@ -41,7 +43,7 @@ export default class Card {
 
   /**
    * Функция определяет является ли текущий пользователь автором карточки
-   * @returns {boolean} true - если текущий пользователь является автором карточки
+   * @returns {boolean} true - если текущий пользователь является автором карточки, false - если нет
    */
   _isOwner() {
     return this._owner._id === this._currentUserId;
@@ -49,7 +51,7 @@ export default class Card {
 
   /**
    * Функция определяет лайкнута ли карточка текущим пользователем
-   * @returns {boolean} true - если лайкнута
+   * @returns {boolean} true - если лайкнута, false - если нет
    */
   _isLikedByCurrentUser() {
     return this._likes.some(like => {
@@ -109,7 +111,7 @@ export default class Card {
   }
 
   /**
-   * Создает DOM-элемент карточки из экземпляра класса Card
+   * Создает и настраивает DOM-элемент карточки из экземпляра класса Card
    * @returns {Element} DOM-элемент карточки
    */
   generateCard() {
@@ -128,11 +130,9 @@ export default class Card {
     this._titleElement.textContent = this._title;
     this._likeCounterElement.textContent = this._likes.length;
 
-    // если карточка создана текущим пользователем, сделаем кнопку
-    // удаления видимой и активной
-    if(this._isOwner()) {
-      this._deleteButtonElement.classList.add('card__delete-button_visible');
-      this._deleteButtonElement.removeAttribute("disabled");
+    // если карточка создана НЕ текущим пользователем, удалим "корзинку"
+    if(!this._isOwner()) {
+      this._deleteButtonElement.remove();
     }
     this._setEventListeners();
 

@@ -4,7 +4,6 @@ import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
 import Section from '../components/Section.js';
 import UserInfo from '../components/UserInfo.js';
-import initialCardsData from '../utils/initialCardsData.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import PopupWithConfirmation from '../components/PopupWithConfirmation';
@@ -84,15 +83,31 @@ const deleteCardPopup = new PopupWithConfirmation(deleteCardPopupSelector, handl
 
 /**
  * Создает DOM-элемент новой карточки
- * @param {object} data объект с данными карточки
- * @param {string} templateSelector селектор шаблона разметки карточки
- * @param {Function} handleCardClick функция обработчика клика по карточке
+ * @param {object} cardData Объект с данными карточки
+ * @param {string} templateSelector Селектор шаблона разметки карточки
+ * @param {Function} handleCardClick Функция обработчика клика по карточке
  * @param {Function} handleDeleteButtonClick Обработчик клика по кнопке удаления
- * @param {string} currentUserId уникальный идентификатор текущего пользователя
+ * @param {string} currentUserId Уникальный идентификатор текущего пользователя
  * @returns {Element} DOM-элемент карточки с переданными параметрами
  */
-function createCardElement(data, templateSelector, handleCardClick, handleDeleteButtonClick, currentUserId, handleSetLike, handleRemoveLike) {
-  const cardElement = new Card(data, templateSelector, handleCardClick, handleDeleteButtonClick, currentUserId, handleSetLike, handleRemoveLike).generateCard();
+function createCardElement(
+  cardData,
+  templateSelector,
+  handleCardClick,
+  handleDeleteButtonClick,
+  currentUserId,
+  handleSetLike,
+  handleRemoveLike
+  ) {
+  const cardElement = new Card(
+    cardData,
+    templateSelector,
+    handleCardClick,
+    handleDeleteButtonClick,
+    currentUserId,
+    handleSetLike,
+    handleRemoveLike
+    ).generateCard();
   return cardElement;
 }
 
@@ -139,7 +154,6 @@ function handleDeleteCardFormSubmit(cardId, cardElement) {
     deleteCardPopup.close();
   });
 }
-
 
 /**
  * Изменяет аватар профиля на данные введеные пользователем
@@ -270,8 +284,6 @@ api.getUserInfo()
     console.log('Не удалось получить данные пользователя от сервера');
     console.log(error);
   });
-
-
 
 // Включим валидацию формы редактирования профиля
 profileEditFormValidator.enableValidation();
