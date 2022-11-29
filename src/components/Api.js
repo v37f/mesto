@@ -89,6 +89,10 @@ export default class Api {
     })
   }
 
+  /**
+   * Удаляет карточку с сервера
+   * @returns {Promise} Ответ от сервера с объектом новой карточки
+   */
   deleteCard(cardId) {
     return fetch(`${this._baseUrl}/cards/${cardId}`, {
       method: 'DELETE',

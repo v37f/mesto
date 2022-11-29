@@ -59,29 +59,6 @@ const api = new Api({
 
 // создаем переменную секции карточек в глобальной области видимости
 let cardsSection = null;
-// получим массив карточек с сервера
-api.getInitialCards()
-  .then(initialCards => {
-    // создадим секцию карточек
-    cardsSection = new Section({
-      items: initialCards,
-      renderer: (cardData) => {
-        const cardElement = createCardElement(cardData, cardTemplateSelector, cardPopup.open.bind(cardPopup), handleDeleteButtonClick);
-        cardsSection.addItemToEnd(cardElement);
-      }
-    },
-      cardsContainerSelector
-    );
-    return cardsSection;
-  })
-  .then(section => {
-    // Отрендерим карточки
-    section.renderItems();
-  })
-  .catch((error) => {
-    console.log('Не удалось получить данные карточек от сервера');
-    console.log(error);
-  });
 
 // текущий пользователь
 const currentUser = new UserInfo({
@@ -110,10 +87,12 @@ const deleteCardPopup = new PopupWithConfirmation(deleteCardPopupSelector, handl
  * @param {object} data объект с данными карточки
  * @param {string} templateSelector селектор шаблона разметки карточки
  * @param {Function} handleCardClick функция обработчика клика по карточке
+ * @param {Function} handleDeleteButtonClick Обработчик клика по кнопке удаления
+ * @param {string} currentUserId уникальный идентификатор текущего пользователя
  * @returns {Element} DOM-элемент карточки с переданными параметрами
  */
-function createCardElement(data, templateSelector, handleCardClick, handleDeleteButtonClick) {
-  const cardElement = new Card(data, templateSelector, handleCardClick, handleDeleteButtonClick).generateCard();
+function createCardElement(data, templateSelector, handleCardClick, handleDeleteButtonClick, currentUserId) {
+  const cardElement = new Card(data, templateSelector, handleCardClick, handleDeleteButtonClick, currentUserId).generateCard();
   return cardElement;
 }
 
@@ -193,7 +172,7 @@ function handleCardAddFormSubmit(inputValues) {
     link: inputValues.imageLink
    })
    .then((cardData) => {
-    const newCardElement = createCardElement(cardData, cardTemplateSelector, cardPopup.open.bind(cardPopup), handleDeleteButtonClick);
+    const newCardElement = createCardElement(cardData, cardTemplateSelector, cardPopup.open.bind(cardPopup), handleDeleteButtonClick, currentUser.getUserInfo().userId);
     cardsSection.addItemToBegin(newCardElement);
    })
    .catch((error) => {
@@ -241,7 +220,36 @@ api.getUserInfo()
     currentUser.setUserInfo({
       userName: userInfo.name,
       userJob: userInfo.about,
-      avatarLink: userInfo.avatar
+      avatarLink: userInfo.avatar,
+      userId: userInfo._id
+    });
+    // вернем id текущего пользователя чтобы в дальнейшем использовать его
+    // при работе с карточками
+    return userInfo._id;
+  })
+  .then((currentUserId) => {
+    // получим массив карточек с сервера
+    api.getInitialCards()
+    .then(initialCards => {
+      // создадим секцию карточек
+      cardsSection = new Section({
+        items: initialCards,
+        renderer: (cardData) => {
+          const cardElement = createCardElement(cardData, cardTemplateSelector, cardPopup.open.bind(cardPopup), handleDeleteButtonClick, currentUserId);
+          cardsSection.addItemToEnd(cardElement);
+        }
+      },
+        cardsContainerSelector
+      );
+      return cardsSection;
+    })
+    .then(section => {
+      // Отрендерим карточки
+      section.renderItems();
+    })
+    .catch((error) => {
+      console.log('Не удалось получить данные карточек от сервера');
+      console.log(error);
     });
   })
   .catch((error) => {

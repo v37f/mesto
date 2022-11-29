@@ -7,15 +7,19 @@ export default class Card {
    * @param {object} data Данные карточки
    * @param {string} templateSelector Селектор шаблона разметки карточки
    * @param {Function} handleCardClick Обработчик клика по картинке
+   * @param {Function} handleDeleteButtonClick Обработчик клика по кнопке удаления
+   * @param {string} currentUserId уникальный идентификатор текущего пользователя
    */
-  constructor(data, templateSelector, handleCardClick, handleDeleteButtonClick) {
+  constructor(data, templateSelector, handleCardClick, handleDeleteButtonClick, currentUserId) {
     this._title = data.name;
     this._imageLink = data.link;
     this._likes = data.likes;
     this._id = data._id;
+    this._owner = data.owner;
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
     this._handleDeleteButtonClick = handleDeleteButtonClick;
+    this._currentUserId = currentUserId;
   }
 
   /**
@@ -31,6 +35,15 @@ export default class Card {
 
     return cardTemplateElement;
   }
+
+  /**
+   * Функция определяет является ли текущий пользователь автором карточки
+   * @returns {boolean} true - если текущий пользователь является автором карточки
+   */
+  _isOwner() {
+    return this._owner._id === this._currentUserId;
+  }
+
 
   /**
    * Устанавливает слушатели на элементы карточки
@@ -76,6 +89,12 @@ export default class Card {
     this._titleElement.textContent = this._title;
     this._likeCounterElement.textContent = this._likes.length;
 
+    // если карточка создана текущим пользователем, сделаем кнопку
+    // удаления видимой и активной
+    if(this._isOwner()) {
+      this._deleteButtonElement.classList.add('card__delete-button_visible');
+      this._deleteButtonElement.removeAttribute("disabled");
+    }
     this._setEventListeners();
 
     return this._cardElement;

@@ -22,7 +22,8 @@ export default class UserInfo {
   getUserInfo() {
     return {
       userName: this._nameElement.textContent,
-      userJob: this._jobElement.textContent
+      userJob: this._jobElement.textContent,
+      userId: this._userId
     }
   }
 
@@ -32,10 +33,12 @@ export default class UserInfo {
    * @param {string} userName Имя пользователя
    * @param {string} userJob Информация о себе
    * @param {string} avatarLink Ссылка на аватар
+   * @param {string} userID уникальный идентификатор пользователя
    */
-  setUserInfo({ userName, userJob, avatarLink }) {
+  setUserInfo({ userName, userJob, avatarLink, userId }) {
     this._nameElement.textContent = userName;
     this._jobElement.textContent = userJob;
     this._avatarElement.src = avatarLink;
+    this._userId = userId;
   }
 }
