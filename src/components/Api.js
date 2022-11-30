@@ -12,6 +12,21 @@ export default class Api {
   }
 
   /**
+   * Проверяет ответ сервера на запрос (успешен/неуспешен)
+   * @param {Response} response Ответ сервера на запрос
+   * @returns {Promise} Если ответ с сервера успешен возвращает
+   * промис с данными. Если ответ неуспешен возвращает отклоненный
+   * промис с номером ошибки
+   */
+  _checkResponse(response) {
+    if (response.ok) {
+      return response.json();
+    } else {
+      return Promise.reject(`Ошибка: ${response.status}`);
+    }
+  }
+
+  /**
    * Получает данные пользователя с сервера
    * @returns {Promise} Ответ от сервера с данными пользователя
    */
@@ -20,11 +35,7 @@ export default class Api {
       headers: this._headers
     })
     .then(res => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        return Promise.reject(`Ошибка: ${res.status}`);
-      }
+      return this._checkResponse(res);
     })
   }
 
@@ -37,11 +48,7 @@ export default class Api {
       headers: this._headers
     })
     .then(res => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        return Promise.reject(`Ошибка: ${res.status}`);
-      }
+      return this._checkResponse(res);
     })
   }
 
@@ -59,11 +66,7 @@ export default class Api {
       })
     })
     .then(res => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        return Promise.reject(`Ошибка: ${res.status}`);
-      }
+      return this._checkResponse(res);
     })
   }
 
@@ -80,11 +83,7 @@ export default class Api {
       })
     })
     .then(res => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        return Promise.reject(`Ошибка: ${res.status}`);
-      }
+      return this._checkResponse(res);
     })
   }
 
@@ -102,11 +101,7 @@ export default class Api {
       })
     })
     .then(res => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        return Promise.reject(`Ошибка: ${res.status}`);
-      }
+      return this._checkResponse(res);
     })
   }
 
@@ -120,11 +115,7 @@ export default class Api {
       headers: this._headers,
     })
     .then(res => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        return Promise.reject(`Ошибка: ${res.status}`);
-      }
+      return this._checkResponse(res);
     })
   }
 
@@ -138,11 +129,7 @@ export default class Api {
       headers: this._headers,
     })
     .then(res => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        return Promise.reject(`Ошибка: ${res.status}`);
-      }
+      return this._checkResponse(res);
     })
   }
 
@@ -156,11 +143,7 @@ export default class Api {
       headers: this._headers,
     })
     .then(res => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        return Promise.reject(`Ошибка: ${res.status}`);
-      }
+      return this._checkResponse(res);
     })
   }
 }
