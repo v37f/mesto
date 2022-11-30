@@ -125,14 +125,12 @@ function handleProfileEditFormSubmit(inputValues) {
       userName: userInfo.name,
       userJob: userInfo.about
     });
+    profileEditPopup.close();
   })
   .catch((error) => {
     console.log('Не удалось обновить данные пользователя');
     console.log(error);
   })
-  .finally(() => {
-    profileEditPopup.close();
-  });
 }
 
 /**
@@ -145,14 +143,12 @@ function handleDeleteCardFormSubmit(cardId, cardElement) {
   .then(() => {
     cardElement.remove();
     cardElement = null;
+    deleteCardPopup.close();
   })
   .catch((error) => {
   console.log('Не удалось удалить карточку');
   console.log(error);
   })
-  .finally(() => {
-    deleteCardPopup.close();
-  });
 }
 
 /**
@@ -165,14 +161,12 @@ function handleUpdateAvatarFormSubmit(inputValue) {
       currentUser.setUserInfo({
         avatarLink: inputValue.avatar
       });
+      updateAvatarPopup.close();
     })
     .catch((error) => {
       console.log('Не удалось обновить аватар');
       console.log(error);
     })
-    .finally(() => {
-      updateAvatarPopup.close();
-    });
 }
 
 /**
@@ -196,14 +190,12 @@ function handleCardAddFormSubmit(inputValues) {
       api.removeLike.bind(api)
       );
     cardsSection.addItemToBegin(newCardElement);
+    cardAddPopup.close();
    })
    .catch((error) => {
     console.log('Не удалось добавить карточку');
     console.log(error);
   })
-  .finally(() => {
-    cardAddPopup.close();
-  });
 }
 
 /**
