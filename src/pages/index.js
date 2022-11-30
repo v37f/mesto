@@ -161,8 +161,10 @@ function handleDeleteCardFormSubmit(cardId, cardElement) {
  */
 function handleUpdateAvatarFormSubmit(inputValue) {
   return api.updateAvatar(inputValue.avatar)
-    .then(res => {
-      currentUser.setAvatar(inputValue.avatar);
+    .then(() => {
+      currentUser.setUserInfo({
+        avatarLink: inputValue.avatar
+      });
     })
     .catch((error) => {
       console.log('Не удалось обновить аватар');
@@ -240,9 +242,9 @@ api.getUserInfo()
     currentUser.setUserInfo({
       userName: userInfo.name,
       userJob: userInfo.about,
-      userId: userInfo._id
+      userId: userInfo._id,
+      avatarLink: userInfo.avatar
     });
-    currentUser.setAvatar(userInfo.avatar);
     // вернем id текущего пользователя чтобы в дальнейшем использовать его
     // при работе с карточками
     return userInfo._id;

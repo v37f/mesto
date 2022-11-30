@@ -32,20 +32,21 @@ export default class UserInfo {
    * @param {object} Объект с новыми данными пользователя
    * @param {string} userName Имя пользователя
    * @param {string} userJob Информация о себе
-   * @param {string} avatarLink Ссылка на аватар
    * @param {string} userID уникальный идентификатор пользователя
-   */
-  setUserInfo({ userName, userJob, avatarLink, userId }) {
-    this._nameElement.textContent = userName;
-    this._jobElement.textContent = userJob;
-    this._userId = userId;
-  }
-
-  /**
-   * Устанавливает аватар пользователя
    * @param {string} avatarLink Ссылка на аватар
    */
-  setAvatar(avatarLink) {
-    this._avatarElement.src = avatarLink;
+  setUserInfo({ userName, userJob, userId, avatarLink }) {
+    if (userName) {
+      this._nameElement.textContent = userName;
+    }
+    if (userJob) {
+      this._jobElement.textContent = userJob;
+    }
+    if (userId) {
+      this._userId = userId;
+    }
+    if (avatarLink) {
+      this._avatarElement.src = avatarLink;
+    }
   }
 }
