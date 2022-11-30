@@ -9,10 +9,9 @@ export default class Card {
    * @param {Function} handleCardClick Обработчик клика по картинке
    * @param {Function} handleDeleteButtonClick Обработчик клика по кнопке удаления
    * @param {string} currentUserId уникальный идентификатор текущего пользователя
-   * @param {Function} handleSetLike Обработчик установки лайка
-   * @param {Function} handleRemoveLike Обработчик снятия лайка
+   * @param {Function} handleLikeButtonClick Обработчик клика по кнопке лайка
    */
-  constructor(cardData, templateSelector, handleCardClick, handleDeleteButtonClick, currentUserId, handleSetLike, handleRemoveLike) {
+  constructor(cardData, templateSelector, handleCardClick, handleDeleteButtonClick, currentUserId, handleLikeButtonClick) {
     this._title = cardData.name;
     this._imageLink = cardData.link;
     this._likes = cardData.likes;
@@ -22,9 +21,8 @@ export default class Card {
     this._handleCardClick = handleCardClick;
     this._handleDeleteButtonClick = handleDeleteButtonClick;
     this._currentUserId = currentUserId;
-    this._handleSetLike = handleSetLike;
-    this._handleRemoveLike = handleRemoveLike;
-    this._isLiked = this._isLikedByCurrentUser();
+    this._handleLikeButtonClick = handleLikeButtonClick;
+    this._isLiked = this.isLikedByCurrentUser();
   }
 
   /**
@@ -50,45 +48,11 @@ export default class Card {
   }
 
   /**
-   * Функция определяет лайкнута ли карточка текущим пользователем
-   * @returns {boolean} true - если лайкнута, false - если нет
-   */
-  _isLikedByCurrentUser() {
-    return this._likes.some(like => {
-      return like._id === this._currentUserId;
-    });
-  }
-
-  /**
    * Устанавливает слушатели на элементы карточки
    */
   _setEventListeners() {
     this._likeButtonElement.addEventListener('click', () => {
-      if (this._isLiked) {
-        this._handleRemoveLike(this._id)
-          .then((updatedCard) => {
-            this._likes = updatedCard.likes;
-            this._likeCounterElement.textContent = this._likes.length;
-            this._likeButtonElement.classList.remove('card__like-button_active');
-            this._isLiked = !this._isLiked;
-          })
-          .catch((error) => {
-            console.log('Не удалось убрать лайк');
-            console.log(error);
-          })
-      } else {
-        this._handleSetLike(this._id)
-        .then((updatedCard) => {
-          this._likes = updatedCard.likes;
-          this._likeCounterElement.textContent = this._likes.length;
-          this._likeButtonElement.classList.add('card__like-button_active');
-          this._isLiked = !this._isLiked;
-        })
-        .catch((error) => {
-          console.log('Не удалось поставить лайк');
-          console.log(error);
-        })
-      }
+      this._handleLikeButtonClick(this._id, this);
     });
 
     this._deleteButtonElement.addEventListener('click', () => {
@@ -104,10 +68,25 @@ export default class Card {
   }
 
   /**
-   * Изменяет состояние кнопки 'Like'(нажата/не нажата)
+   * Функция определяет лайкнута ли карточка текущим пользователем
+   * @returns {boolean} true - если лайкнута, false - если нет
    */
-  _handleLikeButtonClick() {
-    this._likeButtonElement.classList.toggle('card__like-button_active');
+   isLikedByCurrentUser() {
+    return this._likes.some(like => {
+      return like._id === this._currentUserId;
+    });
+  }
+
+  /**
+   * Обновляет статус лайка
+   * @param {object} updatedCard Объект с обновленными данными карточки
+   */
+   updateLikeStatus(updatedCard) {
+    this._likes = updatedCard.likes;
+    this._likeCounterElement.textContent = this._likes.length;
+    this._isLiked ? this._likeButtonElement.classList.remove('card__like-button_active')
+                  : this._likeButtonElement.classList.add('card__like-button_active');
+    this._isLiked = !this._isLiked;
   }
 
   /**
@@ -117,7 +96,7 @@ export default class Card {
   generateCard() {
     this._cardElement = this._getTemplate();
     this._likeButtonElement = this._cardElement.querySelector('.card__like-button');
-    if (this._isLikedByCurrentUser()) {
+    if (this.isLikedByCurrentUser()) {
       this._likeButtonElement.classList.add('card__like-button_active');
     }
     this._imageElement = this._cardElement.querySelector('.card__image');

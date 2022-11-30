@@ -96,18 +96,16 @@ function createCardElement(
   handleCardClick,
   handleDeleteButtonClick,
   currentUserId,
-  handleSetLike,
-  handleRemoveLike
-  ) {
+  handleLikeButtonClick
+) {
   const cardElement = new Card(
     cardData,
     templateSelector,
     handleCardClick,
     handleDeleteButtonClick,
     currentUserId,
-    handleSetLike,
-    handleRemoveLike
-    ).generateCard();
+    handleLikeButtonClick
+  ).generateCard();
   return cardElement;
 }
 
@@ -120,17 +118,17 @@ function handleProfileEditFormSubmit(inputValues) {
     name: inputValues.userName,
     about: inputValues.userJob
   })
-  .then((userInfo) => {
-    currentUser.setUserInfo({
-      userName: userInfo.name,
-      userJob: userInfo.about
-    });
-    profileEditPopup.close();
-  })
-  .catch((error) => {
-    console.log('Не удалось обновить данные пользователя');
-    console.log(error);
-  })
+    .then((userInfo) => {
+      currentUser.setUserInfo({
+        userName: userInfo.name,
+        userJob: userInfo.about
+      });
+      profileEditPopup.close();
+    })
+    .catch((error) => {
+      console.log('Не удалось обновить данные пользователя');
+      console.log(error);
+    })
 }
 
 /**
@@ -140,15 +138,15 @@ function handleProfileEditFormSubmit(inputValues) {
  */
 function handleDeleteCardFormSubmit(cardId, cardElement) {
   api.deleteCard(cardId)
-  .then(() => {
-    cardElement.remove();
-    cardElement = null;
-    deleteCardPopup.close();
-  })
-  .catch((error) => {
-  console.log('Не удалось удалить карточку');
-  console.log(error);
-  })
+    .then(() => {
+      cardElement.remove();
+      cardElement = null;
+      deleteCardPopup.close();
+    })
+    .catch((error) => {
+      console.log('Не удалось удалить карточку');
+      console.log(error);
+    })
 }
 
 /**
@@ -178,24 +176,23 @@ function handleCardAddFormSubmit(inputValues) {
   return api.addCard({
     name: inputValues.cardTitle,
     link: inputValues.imageLink
-   })
-   .then((cardData) => {
-    const newCardElement = createCardElement(
-      cardData,
-      cardTemplateSelector,
-      cardPopup.open.bind(cardPopup),
-      deleteCardPopup.open.bind(deleteCardPopup),
-      currentUser.getUserInfo().userId,
-      api.setLike.bind(api),
-      api.removeLike.bind(api)
-      );
-    cardsSection.addItemToBegin(newCardElement);
-    cardAddPopup.close();
-   })
-   .catch((error) => {
-    console.log('Не удалось добавить карточку');
-    console.log(error);
   })
+    .then((cardData) => {
+      const newCardElement = createCardElement(
+        cardData,
+        cardTemplateSelector,
+        cardPopup.open.bind(cardPopup),
+        deleteCardPopup.open.bind(deleteCardPopup),
+        currentUser.getUserInfo().userId,
+        handleLikeButtonClick
+      );
+      cardsSection.addItemToBegin(newCardElement);
+      cardAddPopup.close();
+    })
+    .catch((error) => {
+      console.log('Не удалось добавить карточку');
+      console.log(error);
+    })
 }
 
 /**
@@ -228,6 +225,33 @@ const handleCardAddButtonClick = () => {
   cardAddPopup.open();
 }
 
+/**
+ * Ставить карточке лайк если его нет, убирает лайк если он есть
+ * @param {string} cardId уникальный идентификатор карточки
+ * @param {object} card Объект карточки
+ */
+function handleLikeButtonClick(cardId, card) {
+  if (card.isLikedByCurrentUser()) {
+    api.removeLike(cardId)
+      .then(updatedCard => {
+        card.updateLikeStatus(updatedCard);
+      })
+      .catch((error) => {
+        console.log('Не удалось убрать лайк');
+        console.log(error);
+      })
+  } else {
+    api.setLike(cardId)
+      .then(updatedCard => {
+        card.updateLikeStatus(updatedCard);
+      })
+      .catch((error) => {
+        console.log('Не удалось поставить лайк');
+        console.log(error);
+      })
+  }
+}
+
 // Получаем данные о пользователе с сервера и подставляем их в разметку
 api.getUserInfo()
   .then(userInfo => {
@@ -244,35 +268,36 @@ api.getUserInfo()
   .then((currentUserId) => {
     // получим массив карточек с сервера
     api.getInitialCards()
-    .then(initialCards => {
-      // создадим секцию карточек
-      cardsSection = new Section({
-        items: initialCards,
-        renderer: (cardData) => {
-          const cardElement = createCardElement(
-            cardData,
-            cardTemplateSelector,
-            cardPopup.open.bind(cardPopup),
-            deleteCardPopup.open.bind(deleteCardPopup),
-            currentUserId,
-            api.setLike.bind(api),
-            api.removeLike.bind(api)
+      .then(initialCards => {
+        // создадим секцию карточек
+        cardsSection = new Section({
+          items: initialCards,
+          renderer: (cardData) => {
+            const cardElement = createCardElement(
+              cardData,
+              cardTemplateSelector,
+              cardPopup.open.bind(cardPopup),
+              deleteCardPopup.open.bind(deleteCardPopup),
+              currentUserId,
+              handleLikeButtonClick
+              // api.setLike.bind(api),
+              // api.removeLike.bind(api)
             );
-          cardsSection.addItemToEnd(cardElement);
-        }
-      },
-        cardsContainerSelector
-      );
-      return cardsSection;
-    })
-    .then(section => {
-      // Отрендерим карточки
-      section.renderItems();
-    })
-    .catch((error) => {
-      console.log('Не удалось получить данные карточек от сервера');
-      console.log(error);
-    });
+            cardsSection.addItemToEnd(cardElement);
+          }
+        },
+          cardsContainerSelector
+        );
+        return cardsSection;
+      })
+      .then(section => {
+        // Отрендерим карточки
+        section.renderItems();
+      })
+      .catch((error) => {
+        console.log('Не удалось получить данные карточек от сервера');
+        console.log(error);
+      });
   })
   .catch((error) => {
     console.log('Не удалось получить данные пользователя от сервера');
