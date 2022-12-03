@@ -11,7 +11,7 @@ import Api from '../components/Api';
 
 // интерактивные элементы
 const profileEditButton = document.querySelector('.profile__edit-button');
-const cardAddButton = document.querySelector('.profile__card-add-button')
+const cardAddButton = document.querySelector('.profile__card-add-button');
 const profileEditForm = document.querySelector('.form_type_edit-profile');
 const cardAddForm = document.querySelector('.form_type_add-card');
 const updateAvatarForm = document.querySelector('.form_type_update-avatar');
@@ -23,7 +23,7 @@ const profileJobSelector = '.profile__job';
 const profileAvatarSelector = '.profile__avatar-image';
 const cardPopupSelector = '.popup_type_card';
 const profileEditPopupSelector = '.popup_type_edit-profile';
-const updateAvatarPopupSelector = '.popup_type_update-avatar'
+const updateAvatarPopupSelector = '.popup_type_update-avatar';
 const deleteCardPopupSelector = '.popup_type_confirm';
 const cardAddPopupSelector = '.popup_type_add-card';
 const cardsContainerSelector = '.cards__container';
@@ -82,31 +82,19 @@ const cardAddPopup = new PopupWithForm(cardAddPopupSelector, handleCardAddFormSu
 const deleteCardPopup = new PopupWithConfirmation(deleteCardPopupSelector, handleDeleteCardFormSubmit);
 
 /**
- * Создает DOM-элемент новой карточки
+ * Отрисовывает карточку на странице
  * @param {object} cardData Объект с данными карточки
- * @param {string} templateSelector Селектор шаблона разметки карточки
- * @param {Function} handleCardClick Функция обработчика клика по карточке
- * @param {Function} handleDeleteButtonClick Обработчик клика по кнопке удаления
- * @param {string} currentUserId Уникальный идентификатор текущего пользователя
- * @returns {Element} DOM-элемент карточки с переданными параметрами
  */
-function createCardElement(
-  cardData,
-  templateSelector,
-  handleCardClick,
-  handleDeleteButtonClick,
-  currentUserId,
-  handleLikeButtonClick
-) {
+function renderCard(cardData) {
   const cardElement = new Card(
     cardData,
-    templateSelector,
-    handleCardClick,
-    handleDeleteButtonClick,
-    currentUserId,
+    cardTemplateSelector,
+    cardPopup.open.bind(cardPopup),
+    deleteCardPopup.open.bind(deleteCardPopup),
+    currentUser.getUserInfo().userId,
     handleLikeButtonClick
   ).generateCard();
-  return cardElement;
+  cardsSection.addItem(cardElement);
 }
 
 /**
@@ -178,15 +166,7 @@ function handleCardAddFormSubmit(inputValues) {
     link: inputValues.imageLink
   })
     .then((cardData) => {
-      const newCardElement = createCardElement(
-        cardData,
-        cardTemplateSelector,
-        cardPopup.open.bind(cardPopup),
-        deleteCardPopup.open.bind(deleteCardPopup),
-        currentUser.getUserInfo().userId,
-        handleLikeButtonClick
-      );
-      cardsSection.addItemToBegin(newCardElement);
+      renderCard(cardData);
       cardAddPopup.close();
     })
     .catch((error) => {
@@ -198,7 +178,7 @@ function handleCardAddFormSubmit(inputValues) {
 /**
  * Открывает всплывающее окно редактирования профиля
  */
-const handleProfileEditButtonClick = () => {
+function handleProfileEditButtonClick() {
   const { userName, userJob } = currentUser.getUserInfo();
   profileNameInput.value = userName;
   profileJobInput.value = userJob;
@@ -210,7 +190,7 @@ const handleProfileEditButtonClick = () => {
 /**
  * Открывает всплывающее окно обновления аватара
  */
-const handleProfileAvatarClick = () => {
+function handleProfileAvatarClick() {
   updateAvatarFormValidator.hideInputsValidationErrors();
   updateAvatarFormValidator.toggleSubmitButtonState();
   updateAvatarPopup.open();
@@ -219,7 +199,7 @@ const handleProfileAvatarClick = () => {
 /**
  * Открывает всплывающее окно добавления карточки
  */
-const handleCardAddButtonClick = () => {
+function handleCardAddButtonClick() {
   placeAddFormValidator.hideInputsValidationErrors();
   placeAddFormValidator.toggleSubmitButtonState();
   cardAddPopup.open();
@@ -261,31 +241,16 @@ api.getUserInfo()
       userId: userInfo._id,
       avatarLink: userInfo.avatar
     });
-    // вернем id текущего пользователя чтобы в дальнейшем использовать его
-    // при работе с карточками
-    return userInfo._id;
   })
-  .then((currentUserId) => {
+  .then(() => {
     // получим массив карточек с сервера
     api.getInitialCards()
       .then(initialCards => {
         // создадим секцию карточек
         cardsSection = new Section({
           items: initialCards,
-          renderer: (cardData) => {
-            const cardElement = createCardElement(
-              cardData,
-              cardTemplateSelector,
-              cardPopup.open.bind(cardPopup),
-              deleteCardPopup.open.bind(deleteCardPopup),
-              currentUserId,
-              handleLikeButtonClick
-              // api.setLike.bind(api),
-              // api.removeLike.bind(api)
-            );
-            cardsSection.addItemToEnd(cardElement);
-          }
-        },
+          renderer: renderCard
+          },
           cardsContainerSelector
         );
         return cardsSection;
